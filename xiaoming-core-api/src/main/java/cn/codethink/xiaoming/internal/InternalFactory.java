@@ -1,4 +1,4 @@
-package cn.codethink.xiaoming.api;
+package cn.codethink.xiaoming.internal;
 
 import cn.codethink.xiaoming.annotation.BotInternalAPI;
 
@@ -7,28 +7,28 @@ import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
 /**
- * <h1>API 工厂</h1>
+ * <h1>Internal 工厂</h1>
  *
- * <p>API 工厂是获取 {@link API} 实例的类。</p>
+ * <p>Internal 工厂是获取 {@link Internal} 实例的类。</p>
  *
  * @author Chuanwise
  */
 @BotInternalAPI
-public class APIFactory {
-    private APIFactory() {
+public class InternalFactory {
+    private InternalFactory() {
     }
     
     /**
-     * API 的全局唯一实例
+     * Internal 的全局唯一实例
      */
-    private static volatile API instance;
+    private static volatile Internal instance;
     
-    public static API getInstance() {
+    public static Internal getInstance() {
         if (instance == null) {
-            synchronized (APIFactory.class) {
+            synchronized (InternalFactory.class) {
                 if (instance == null) {
-                    final ServiceLoader<API> serviceLoader = ServiceLoader.load(API.class);
-                    final Iterator<API> iterator = serviceLoader.iterator();
+                    final ServiceLoader<Internal> serviceLoader = ServiceLoader.load(Internal.class);
+                    final Iterator<Internal> iterator = serviceLoader.iterator();
     
                     if (iterator.hasNext()) {
                         instance = iterator.next();
