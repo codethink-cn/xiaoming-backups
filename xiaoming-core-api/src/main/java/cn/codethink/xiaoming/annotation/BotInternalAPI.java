@@ -11,12 +11,13 @@ import java.lang.annotation.*;
  * <ui>
  *     <li>当一个方法被该注解修饰，意味着该方法是内部 API。</li>
  *     <li>当一个类或接口被该注解修饰，意味着该类或接口及其所有子类都是内部 API。</li>
+ *     <li>当一个属性被该注解修饰，意味着该属性相关的方法都是内部 API。</li>
  * </ui>
  *
  * @author Chuanwise
  */
 @Documented
-@Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.SOURCE)
 public @interface BotInternalAPI {
 }
