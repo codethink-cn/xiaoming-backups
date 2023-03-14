@@ -7,6 +7,7 @@ group 'cn.codethink'
 version '0.0.1-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -14,9 +15,17 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
+    implementation 'cn.codethink:codethink-common:1.0-SNAPSHOT'
+
     api project(':xiaoming-core-api')
 }
 
 test {
     useJUnitPlatform()
+}
+
+// apply deploy script if file exists
+def publishScriptFile = new File(project.rootDir, 'publish.gradle')
+if (publishScriptFile.isFile()) {
+    apply from: publishScriptFile.getAbsolutePath()
 }
