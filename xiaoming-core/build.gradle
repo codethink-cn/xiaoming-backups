@@ -17,7 +17,7 @@ dependencies {
 
     implementation 'cn.codethink:codethink-common:1.0-SNAPSHOT'
 
-    api project(':xiaoming-core-api')
+    api project(':xiaoming-api')
 }
 
 test {
