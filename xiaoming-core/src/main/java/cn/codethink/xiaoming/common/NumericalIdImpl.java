@@ -1,8 +1,9 @@
 package cn.codethink.xiaoming.common;
 
-import cn.codethink.common.util.Preconditions;
 import cn.codethink.xiaoming.annotation.BotThreadUnsafeAPI;
+import com.google.common.base.Preconditions;
 
+import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -40,7 +41,7 @@ public class NumericalIdImpl
     private Integer hashCode;
     
     public static NumericalId of(String string) {
-        Preconditions.objectNonNull(string, "String");
+        Preconditions.checkNotNull(string, "String is null!");
         
         final BigDecimal bigDecimal = new BigDecimal(string);
         if (bigDecimal.equals(BigDecimal.ZERO)) {
@@ -207,8 +208,8 @@ public class NumericalIdImpl
     }
     
     @Override
-    public int compareTo(NumericalId id) {
-        Preconditions.objectNonNull(id, "Numerical id");
+    public int compareTo(@Nonnull NumericalId id) {
+        Preconditions.checkNotNull(id, "Numerical id is null!");
         return bigDecimal.compareTo(id.toBigDecimal());
     }
     

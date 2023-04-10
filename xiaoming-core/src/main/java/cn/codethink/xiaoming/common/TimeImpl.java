@@ -1,7 +1,7 @@
 package cn.codethink.xiaoming.common;
 
-import cn.codethink.common.util.Preconditions;
 import cn.codethink.xiaoming.annotation.BotThreadUnsafeAPI;
+import com.google.common.base.Preconditions;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class TimeImpl
     private Integer hashCode;
     
     public TimeImpl(long milliseconds) {
-        Preconditions.argument(milliseconds >= 0, "Milliseconds must be greater than or equals to 0!");
+        Preconditions.checkArgument(milliseconds >= 0, "Milliseconds must be greater than or equals to 0!");
         this.milliseconds = milliseconds;
         this.seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds);
     }
@@ -48,7 +48,7 @@ public class TimeImpl
     
     @Override
     public String format(DateFormat dateFormat) {
-        Preconditions.objectNonNull(dateFormat, "Date format");
+        Preconditions.checkNotNull(dateFormat, "Date format is null!");
         return dateFormat.format(toDate());
     }
     
