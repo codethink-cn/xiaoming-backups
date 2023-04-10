@@ -1,8 +1,13 @@
 package cn.codethink.xiaoming.api;
 
+import cn.codethink.xiaoming.common.Id;
 import cn.codethink.xiaoming.common.NumericalId;
 import cn.codethink.xiaoming.common.StringId;
 import cn.codethink.xiaoming.common.Time;
+import cn.codethink.xiaoming.message.segment.At;
+import cn.codethink.xiaoming.message.segment.AtAll;
+import cn.codethink.xiaoming.message.segment.Text;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 
 /**
  * <h1>小明内部</h1>
@@ -26,4 +31,8 @@ public interface API {
     
     StringId getEmptyStringId();
     StringId getStringId(String value);
+    
+    Text getText(String text);
+    At getAt(Id id);
+    AtAll getAtAll();
 }

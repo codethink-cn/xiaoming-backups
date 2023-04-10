@@ -1,6 +1,7 @@
 package cn.codethink.xiaoming.api;
 
 import cn.codethink.xiaoming.common.*;
+import cn.codethink.xiaoming.message.segment.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -65,5 +66,20 @@ public class APIImpl
     @Override
     public StringId getStringId(String value) {
         return StringIdImpl.of(value);
+    }
+    
+    @Override
+    public Text getText(String text) {
+        return new TextImpl(text);
+    }
+    
+    @Override
+    public At getAt(Id id) {
+        return new AtImpl(id);
+    }
+    
+    @Override
+    public AtAll getAtAll() {
+        return AtAllImpl.getInstance();
     }
 }
