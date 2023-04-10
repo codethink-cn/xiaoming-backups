@@ -33,7 +33,7 @@ public class APIFactory {
                     if (iterator.hasNext()) {
                         api = iterator.next();
                     } else {
-                        throw new NoSuchElementException("Could not load xiaoming-core!");
+                        throw new NoSuchElementException("No xiaoming-core present!");
                     }
                 }
             }

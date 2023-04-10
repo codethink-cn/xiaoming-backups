@@ -1,8 +1,8 @@
 package cn.codethink.xiaoming.common;
 
-import cn.codethink.common.util.Preconditions;
+import com.google.common.base.Preconditions;
 
-import java.util.Objects;
+import javax.annotation.Nonnull;
 
 public class StringIdImpl
     implements StringId {
@@ -16,7 +16,8 @@ public class StringIdImpl
     }
     
     public static StringId of(String value) {
-        Preconditions.objectNonNull(value, "Value");
+        Preconditions.checkNotNull(value, "Value is null!");
+        
         if (value.isEmpty()) {
             return EMPTY;
         } else {
@@ -25,9 +26,9 @@ public class StringIdImpl
     }
     
     @Override
-    public int compareTo(StringId o) {
-        Preconditions.objectNonNull(o, "String id");
-        return value.compareTo(o.toString());
+    public int compareTo(@Nonnull StringId id) {
+        Preconditions.checkNotNull(id, "String id is null!");
+        return value.compareTo(id.toString());
     }
     
     @Override
