@@ -1,6 +1,7 @@
 package cn.codethink.xiaoming.relation;
 
 import cn.codethink.xiaoming.Bot;
+import cn.codethink.xiaoming.common.BotObject;
 
 /**
  * <h1>个体</h1>
@@ -12,5 +13,5 @@ import cn.codethink.xiaoming.Bot;
  * @author Chuanwise
  */
 public interface Individual
-    extends Relation {
+    extends Relation, BotObject {
 }
