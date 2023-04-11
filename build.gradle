@@ -2,3 +2,7 @@ allprojects {
     group 'cn.codethink'
     version '1.0-SNAPSHOT'
 }
+
+ext {
+    junitVersion = '5.9.2'
+}
