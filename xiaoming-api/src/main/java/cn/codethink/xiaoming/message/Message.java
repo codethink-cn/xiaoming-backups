@@ -1,7 +1,7 @@
 package cn.codethink.xiaoming.message;
 
 import cn.codethink.xiaoming.message.chain.MessageChain;
-import cn.codethink.xiaoming.message.segment.MessageSegment;
+import cn.codethink.xiaoming.message.element.MessageElement;
 
 /**
  * <h1>消息</h1>
@@ -10,7 +10,7 @@ import cn.codethink.xiaoming.message.segment.MessageSegment;
  *
  * @author Chuanwise
  * @see MessageChain
- * @see MessageSegment
+ * @see MessageElement
  */
 public interface Message {
 }

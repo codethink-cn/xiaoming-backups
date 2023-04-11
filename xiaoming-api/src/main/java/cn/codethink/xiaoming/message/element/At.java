@@ -1,4 +1,4 @@
-package cn.codethink.xiaoming.message.segment;
+package cn.codethink.xiaoming.message.element;
 
 import cn.codethink.xiaoming.api.APIFactory;
 import cn.codethink.xiaoming.common.Id;
@@ -9,7 +9,7 @@ import cn.codethink.xiaoming.common.Id;
  * @author Chuanwise
  */
 public interface At
-    extends MessageSegment {
+    extends MessageElement {
     
     /**
      * 构造提及消息

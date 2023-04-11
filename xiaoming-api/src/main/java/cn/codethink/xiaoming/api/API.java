@@ -1,13 +1,16 @@
 package cn.codethink.xiaoming.api;
 
-import cn.codethink.xiaoming.common.Id;
-import cn.codethink.xiaoming.common.NumericalId;
-import cn.codethink.xiaoming.common.StringId;
-import cn.codethink.xiaoming.common.Time;
-import cn.codethink.xiaoming.message.segment.At;
-import cn.codethink.xiaoming.message.segment.AtAll;
-import cn.codethink.xiaoming.message.segment.Text;
-import com.sun.org.apache.bcel.internal.classfile.Code;
+import cn.codethink.xiaoming.common.*;
+import cn.codethink.xiaoming.message.chain.MessageChain;
+import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
+import cn.codethink.xiaoming.message.Message;
+import cn.codethink.xiaoming.message.element.*;
+import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
 
 /**
  * <h1>小明内部</h1>
@@ -35,4 +38,29 @@ public interface API {
     Text getText(String text);
     At getAt(Id id);
     AtAll getAtAll();
+    
+    SerializingConfiguration getSerializingConfiguration();
+    SerializingConfiguration.Builder getSerializingConfigurationBuilder();
+    
+    DeserializingConfiguration getDeserializingConfiguration();
+    DeserializingConfiguration.Builder getDeserializingConfigurationBuilder();
+    
+    String serialize(Message message);
+    String serialize(Message message, SerializingConfiguration configuration);
+    
+    Message deserialize(Reader reader);
+    Message deserialize(Reader reader, DeserializingConfiguration configuration);
+    
+    MessageChain getMessageChain(MessageElement... messageElements);
+    MessageChain getMessageChain(MessageElement messageElement);
+    MessageChain.Builder getMessageChainBuilder();
+    
+    Resource getFileResource(File file);
+    Resource getURLResource(URL url);
+    Resource getInputStreamResource(InputStream inputStream);
+    Resource getBytesResource(byte[] bytes);
+    Resource getStaticResource(String path);
+    Resource getStaticResource(ClassLoader classLoader, String path);
+    
+    Image getImage(Resource resource);
 }

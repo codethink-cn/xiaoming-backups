@@ -1,4 +1,4 @@
-package cn.codethink.xiaoming.message.segment;
+package cn.codethink.xiaoming.message.element;
 
 import com.google.common.base.Preconditions;
 
