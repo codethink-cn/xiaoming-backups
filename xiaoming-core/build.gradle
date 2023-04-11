@@ -26,8 +26,6 @@ test {
     useJUnitPlatform()
 }
 
-// apply deploy script if file exists
-def publishScriptFile = new File(project.rootDir, 'publish.gradle')
 if (publishScriptFile.isFile()) {
     apply from: publishScriptFile.getAbsolutePath()
 }

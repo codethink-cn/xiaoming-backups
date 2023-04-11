@@ -5,4 +5,5 @@ allprojects {
 
 ext {
     junitVersion = '5.9.2'
+    publishScriptFile = new File(project.rootDir, 'publish.gradle')
 }
