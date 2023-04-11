@@ -1,5 +1,7 @@
 package cn.codethink.xiaoming.relation;
 
+import cn.codethink.xiaoming.Bot;
+
 /**
  * <h1>关系</h1>
  *
@@ -8,6 +10,7 @@ package cn.codethink.xiaoming.relation;
  * @author Chuanwise
  * @see Individual
  * @see Crowd
+ * @see Bot
  */
 public interface Relation {
 }
