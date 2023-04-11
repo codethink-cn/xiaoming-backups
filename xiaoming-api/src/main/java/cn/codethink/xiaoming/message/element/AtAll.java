@@ -1,4 +1,4 @@
-package cn.codethink.xiaoming.message.segment;
+package cn.codethink.xiaoming.message.element;
 
 import cn.codethink.xiaoming.api.APIFactory;
 
@@ -8,7 +8,7 @@ import cn.codethink.xiaoming.api.APIFactory;
  * @author Chuanwise
  */
 public interface AtAll
-    extends MessageSegment {
+    extends MessageElement {
     
     /**
      * 获取提及所有消息
