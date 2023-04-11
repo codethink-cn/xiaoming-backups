@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'java-library'
 }
 
 group 'cn.codethink'
@@ -7,11 +8,16 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://repo.codethink.cn/public'
+    }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    api 'cn.codethink:xiaoming-expression-api:1.0.0-SNAPSHOT'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
 
     implementation 'com.google.guava:guava:31.1-jre'
 }
