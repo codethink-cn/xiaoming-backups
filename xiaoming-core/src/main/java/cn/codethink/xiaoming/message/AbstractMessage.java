@@ -2,11 +2,15 @@ package cn.codethink.xiaoming.message;
 
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import com.google.common.base.Preconditions;
+import org.apache.commons.collections4.map.LRUMap;
+
+import java.util.Collections;
+import java.util.Map;
 
 public abstract class AbstractMessage
     implements Message {
     
-    private volatile String messageCodeCache;
+    private volatile Map<SerializingConfiguration, String> messageCodeCache;
     
     @Override
     public String serializeToMessageCode() {
@@ -16,18 +20,14 @@ public abstract class AbstractMessage
     @Override
     public String serializeToMessageCode(SerializingConfiguration configuration) {
         Preconditions.checkNotNull(configuration, "Serializing configuration is null!");
-        
-        if (configuration.equals(SerializingConfiguration.getInstance())) {
-            if (messageCodeCache == null) {
-                synchronized (this) {
-                    if (messageCodeCache == null) {
-                        messageCodeCache = MessageCodeImpl.serialize(this);
-                    }
+    
+        if (messageCodeCache == null) {
+            synchronized (this) {
+                if (messageCodeCache == null) {
+                    messageCodeCache = Collections.synchronizedMap(new LRUMap<>());
                 }
             }
-            return messageCodeCache;
-        } else {
-            return MessageCodeImpl.serialize(this, configuration);
         }
+        return messageCodeCache.computeIfAbsent(configuration, conf -> MessageCodeImpl.serialize(this, conf));
     }
 }
