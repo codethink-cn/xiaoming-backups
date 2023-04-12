@@ -12,6 +12,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 
 public class InterpretersImpl {
@@ -76,17 +77,17 @@ public class InterpretersImpl {
         
         @Analyzer(Resource.class)
         public Expression analyze(FileResourceImpl resource, Interpreter interpreter) {
-            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getFile())) + ")");
+            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getFile(), Collections.singleton(interpreter))) + ")");
         }
         
         @Analyzer(Resource.class)
         public Expression analyze(URLResourceImpl resource, Interpreter interpreter) {
-            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getUrl())) + ")");
+            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getUrl(), Collections.singleton(interpreter))) + ")");
         }
         
         @Analyzer(Resource.class)
         public Expression analyze(BytesResourceImpl resource, Interpreter interpreter) {
-            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getBytes())) + ")");
+            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getBytes(), Collections.singleton(interpreter))) + ")");
         }
     }
     
@@ -158,7 +159,7 @@ public class InterpretersImpl {
     
         @Analyzer(At.class)
         public Expression analyzeAt(At at, Interpreter interpreter) {
-            return interpreter.compile("At(" + interpreter.format(interpreter.analyze(at.getId())) + ")");
+            return interpreter.compile("At(" + interpreter.format(interpreter.analyze(at.getId(), Collections.singleton(interpreter))) + ")");
         }
     
         @Constructor
@@ -188,7 +189,7 @@ public class InterpretersImpl {
         
         @Analyzer(Image.class)
         public Expression analyze(Image image, Interpreter interpreter) {
-            final String resource = interpreter.format(interpreter.analyze(image.getResource()));
+            final String resource = interpreter.format(interpreter.analyze(image.getResource(), Collections.singleton(interpreter)));
             return interpreter.compile("Image(" + resource + ", " + image.getWidth() + ", " + image.getHeight() + ", " + image.getSize() + ", " + image.getImageType() + ")");
         }
     }
