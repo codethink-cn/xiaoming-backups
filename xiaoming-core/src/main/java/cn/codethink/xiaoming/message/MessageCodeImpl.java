@@ -4,7 +4,7 @@ import cn.codethink.xiaoming.expression.Expression;
 import cn.codethink.xiaoming.expression.formatter.FormattingConfiguration;
 import cn.codethink.xiaoming.expression.formatter.FormattingItem;
 import cn.codethink.xiaoming.expression.formatter.FormattingTextItem;
-import cn.codethink.xiaoming.expression.interpreter.ConfigurableInterpreter;
+import cn.codethink.xiaoming.expression.lang.Interpreter;
 import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.chain.MultipleContentsMessageImplChain;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
@@ -13,15 +13,13 @@ import cn.codethink.xiaoming.message.content.MessageContent;
 import cn.codethink.xiaoming.message.content.Text;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import cn.codethink.xiaoming.util.Interpreters;
+import cn.codethink.xiaoming.util.InterpretersImpl;
 import com.google.common.base.Preconditions;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class MessageCodeImpl {
     private MessageCodeImpl() {
@@ -32,9 +30,9 @@ public class MessageCodeImpl {
         if (messageContent instanceof Text && !configuration.isExplicitText()) {
             return new FormattingTextItem(StringEscapeUtils.escapeJava(messageContent.toString()));
         }
-    
-        final ConfigurableInterpreter interpreter = Interpreters.getInstance();
-        final Expression expression = interpreter.analyze(messageContent, configuration.getAnalyzingConfiguration());
+        
+        final Interpreter interpreter = InterpretersImpl.getInstance();
+        final Expression expression = interpreter.analyze(messageContent, Collections.singleton(configuration));
         final FormattingConfiguration formattingConfiguration = configuration.getFormattingConfiguration();
         
         return new FormattingTextItem(interpreter.format(expression, formattingConfiguration));
@@ -224,8 +222,8 @@ public class MessageCodeImpl {
                                 depth--;
                                 
                                 if (depth == 0) {
-                                    final Expression expression = Interpreters.getInstance().compile(stringBuilder.toString(), configuration.getCompilingConfiguration());
-                                    final Object result = expression.calculate();
+                                    final Expression expression = InterpretersImpl.getInstance().compile(stringBuilder.toString());
+                                    final Object result = expression.interpret();
                                     if (result instanceof MessageContent) {
                                         segments.add((MessageContent) result);
                                     } else {
@@ -251,8 +249,8 @@ public class MessageCodeImpl {
                             if (depth == 0) {
                                 
                                 // 编译前面的表达式
-                                final Expression expression = Interpreters.getInstance().compile(stringBuilder.toString(), configuration.getCompilingConfiguration());
-                                final Object result = expression.calculate();
+                                final Expression expression = InterpretersImpl.getInstance().compile(stringBuilder.toString());
+                                final Object result = expression.interpret();
                                 if (result instanceof MessageContent) {
                                     segments.add((MessageContent) result);
                                 } else {

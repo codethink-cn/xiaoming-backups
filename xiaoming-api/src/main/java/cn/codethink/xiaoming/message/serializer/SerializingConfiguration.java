@@ -1,7 +1,6 @@
 package cn.codethink.xiaoming.message.serializer;
 
 import cn.codethink.xiaoming.api.APIFactory;
-import cn.codethink.xiaoming.expression.analyzer.AnalyzingConfiguration;
 import cn.codethink.xiaoming.expression.formatter.FormattingConfiguration;
 
 /**
@@ -29,10 +28,10 @@ public interface SerializingConfiguration {
         /**
          * 设置是否存储图像字节信息
          *
-         * @param storageImageBytes 存储图像字节信息
+         * @param storageResourceBytes 存储图像字节信息
          * @return 序列化配置构建器
          */
-        Builder storageImageBytes(boolean storageImageBytes);
+        Builder storageResourceBytes(boolean storageResourceBytes);
     
         /**
          * 设置是否明确文本
@@ -49,14 +48,6 @@ public interface SerializingConfiguration {
          * @return 序列化配置构建器
          */
         Builder formattingConfiguration(FormattingConfiguration formattingConfiguration);
-    
-        /**
-         * 设置分析配置
-         *
-         * @param analyzingConfiguration 分析配置
-         * @return 序列化配置构建器
-         */
-        Builder analyzingConfiguration(AnalyzingConfiguration analyzingConfiguration);
     
         /**
          * 设置表达式开头的空格数
@@ -141,11 +132,4 @@ public interface SerializingConfiguration {
      * @return 格式化配置
      */
     FormattingConfiguration getFormattingConfiguration();
-    
-    /**
-     * 获取分析配置
-     *
-     * @return 分析配置
-     */
-    AnalyzingConfiguration getAnalyzingConfiguration();
 }

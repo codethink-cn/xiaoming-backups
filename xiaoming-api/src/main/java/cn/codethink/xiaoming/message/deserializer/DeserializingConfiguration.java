@@ -2,7 +2,6 @@ package cn.codethink.xiaoming.message.deserializer;
 
 import cn.codethink.xiaoming.Bot;
 import cn.codethink.xiaoming.api.APIFactory;
-import cn.codethink.xiaoming.expression.compiler.CompilingConfiguration;
 import cn.codethink.xiaoming.relation.Relation;
 
 /**
@@ -34,14 +33,6 @@ public interface DeserializingConfiguration {
          * @return 反序列化配置构建器
          */
         Builder relation(Relation relation);
-    
-        /**
-         * 设置编译配置
-         *
-         * @param compilingConfiguration 编译配置
-         * @return 反序列化配置构建器
-         */
-        Builder compilingConfiguration(CompilingConfiguration compilingConfiguration);
     
         /**
          * 构建反序列化配置
@@ -82,11 +73,4 @@ public interface DeserializingConfiguration {
      * @return 关系
      */
     Relation getRelation();
-    
-    /**
-     * 获取编译配置
-     *
-     * @return 编译配置
-     */
-    CompilingConfiguration getCompilingConfiguration();
 }

@@ -65,12 +65,12 @@ public abstract class AbstractMessageChain
         final Iterator<MessageContent> iterator = iterator();
         final Iterator<MessageContent> thatIterator = messageChain.iterator();
         
-        while (iterator.hasNext() == thatIterator.hasNext()) {
+        while (iterator.hasNext() && thatIterator.hasNext()) {
             if (!Objects.equals(iterator.next(), thatIterator.next())) {
                 return false;
             }
         }
-        return true;
+        return iterator.hasNext() == thatIterator.hasNext();
     }
     
     @Override
