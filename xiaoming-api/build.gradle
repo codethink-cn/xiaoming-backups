@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    api 'cn.codethink:xiaoming-expression-api:1.0.0-SNAPSHOT'
+    api 'cn.codethink:xiaoming-expression-api:' + expressionVersion
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
