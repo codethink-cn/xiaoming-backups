@@ -28,7 +28,7 @@ public class MessageCodeImpl {
     
     private static void plusFormatUnits(Formatter formatter, MessageContent messageContent, SerializingConfiguration configuration) {
         if (messageContent instanceof Text && !configuration.isExplicitText()) {
-            formatter.plus(StringEscapeUtils.escapeJava(messageContent.toString()));
+            formatter.plus(StringEscapeUtils.unescapeJava(((Text) messageContent).getText()));
             return;
         }
     
