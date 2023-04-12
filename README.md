@@ -3,7 +3,7 @@
 [![Latest release](https://img.shields.io/github/release/codethink-cn/xiaoming.svg)](https://github.com/codethink-cn/xiaoming/releases/latest)
 [![Build by Gradle](https://img.shields.io/badge/Build%20by-Gradle-06A0CE?logo=Gradle&labelColor=02303A)](https://gradle.org/?from=xiaoming)
 
-小明是一套跨平台的通用的即时通讯软件机器人开发库，包含最基本的上下线、收发消息等功能，由 [`CodeThink Technologies`](https://github.com/codethink-cn) 开发。
+小明是一套运行在 `JVM` 的跨平台的通用的即时通讯软件机器人 `SDK`，由 [`CodeThink Technologies`](https://github.com/codethink-cn) 开发，包含最基本的上下线、收发消息等功能。
 
 项目正在重构，敬请期待。
 
