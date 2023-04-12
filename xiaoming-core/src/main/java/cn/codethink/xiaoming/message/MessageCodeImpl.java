@@ -1,10 +1,11 @@
 package cn.codethink.xiaoming.message;
 
 import cn.codethink.xiaoming.expression.Expression;
-import cn.codethink.xiaoming.expression.formatter.FormattingConfiguration;
-import cn.codethink.xiaoming.expression.formatter.FormattingItem;
-import cn.codethink.xiaoming.expression.formatter.FormattingTextItem;
-import cn.codethink.xiaoming.expression.lang.Interpreter;
+import cn.codethink.xiaoming.expression.format.FormatUnit;
+import cn.codethink.xiaoming.expression.format.Formatter;
+import cn.codethink.xiaoming.expression.format.PairedFormatUnit;
+import cn.codethink.xiaoming.expression.interpreter.Interpreter;
+import cn.codethink.xiaoming.expression.interpreter.InterpreterImpl;
 import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.chain.MultipleMessageContentsMessageChainImpl;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
@@ -25,16 +26,15 @@ public class MessageCodeImpl {
         throw new NoSuchElementException("No " + MessageCodeImpl.class.getName() + " instances for you!");
     }
     
-    private static FormattingItem serializeMessageContent(MessageContent messageContent, SerializingConfiguration configuration) {
+    private static void plusFormatUnits(Formatter formatter, MessageContent messageContent, SerializingConfiguration configuration) {
         if (messageContent instanceof Text && !configuration.isExplicitText()) {
-            return new FormattingTextItem(StringEscapeUtils.escapeJava(messageContent.toString()));
+            formatter.plus(StringEscapeUtils.escapeJava(messageContent.toString()));
+            return;
         }
-        
+    
         final Interpreter interpreter = InterpretersImpl.getInstance();
-        final Expression expression = interpreter.analyze(messageContent, Collections.singleton(configuration));
-        final FormattingConfiguration formattingConfiguration = configuration.getFormattingConfiguration();
-        
-        return new FormattingTextItem(interpreter.format(expression, formattingConfiguration));
+        final Expression expression = interpreter.analyze(messageContent);
+        ((InterpreterImpl) interpreter).plusFormatUnits(formatter, expression);
     }
     
     public static String serialize(Message message) {
@@ -47,19 +47,15 @@ public class MessageCodeImpl {
         Preconditions.checkNotNull(message, "Message is null!");
         Preconditions.checkNotNull(configuration, "Serializing configuration is null!");
     
-        final FormattingTextItem itemBeforeExpression =
-            new FormattingTextItem(0, "#{", configuration.getCountOfSpacesBeforeExpression());
-        final FormattingTextItem itemAfterExpression =
-            new FormattingTextItem(configuration.getCountOfSpacesAfterExpression(), "}", 0);
-        
+        final Formatter formatter = Formatter.newInstance(configuration.getFormatConfiguration());
+        final PairedFormatUnit expressionBraces = configuration.getExpressionBounds();
         if (message instanceof MessageContent) {
-            final List<FormattingItem> items = new ArrayList<>();
+    
+            formatter.plus(expressionBraces.getLeftUnit());
+            plusFormatUnits(formatter, (MessageContent) message, configuration);
+            formatter.plus(expressionBraces.getRightUnit());
             
-            items.add(itemBeforeExpression);
-            items.add(serializeMessageContent((MessageContent) message, configuration));
-            items.add(itemAfterExpression);
-            
-            return FormattingItem.toString(items, configuration.getFormattingConfiguration().isMinimizeSpaces());
+            return formatter.toString();
         }
         if (message instanceof MessageChain) {
             final MessageChain messageChain = (MessageChain) message;
@@ -67,46 +63,44 @@ public class MessageCodeImpl {
             if (size == 0) {
                 throw new IllegalArgumentException("Unexpected empty message chain");
             }
-            
-            final FormattingItem comma = new FormattingTextItem(configuration.getFormattingConfiguration().getCountOfSpacesBeforeComma(),
-                ",", configuration.getFormattingConfiguration().getCountOfSpacesAfterComma());
     
-            final List<FormattingItem> items = new ArrayList<>();
+            final FormatUnit comma = configuration.getFormatConfiguration().getComma();
             if (configuration.isExplicitText()) {
-                items.add(itemBeforeExpression);
-                items.add(serializeMessageContent(messageChain.get(0), configuration));
+                formatter.plus(expressionBraces.getLeftUnit());
+                plusFormatUnits(formatter, messageChain.get(0), configuration);
                 for (int i = 1; i < size; i++) {
-                    items.add(comma);
-                    items.add(serializeMessageContent(messageChain.get(i), configuration));
+                    formatter.plus(comma);
+                    plusFormatUnits(formatter, messageChain.get(i), configuration);
                 }
-                items.add(itemAfterExpression);
+                formatter.plus(expressionBraces.getRightUnit());
             } else {
                 boolean expression = false;
                 for (MessageContent messageContent : messageChain) {
                     if (expression) {
                         if (messageContent instanceof Text) {
-                            items.add(itemAfterExpression);
+                            formatter.plus(expressionBraces.getRightUnit());
                             expression = false;
+                        } else {
+                            formatter.plus(comma);
                         }
-                        items.add(serializeMessageContent(messageContent, configuration));
+                        plusFormatUnits(formatter, messageContent, configuration);
                     } else {
                         if (!(messageContent instanceof Text)) {
                             expression = true;
-                            items.add(itemBeforeExpression);
+                            formatter.plus(expressionBraces.getLeftUnit());
                         }
-                        items.add(serializeMessageContent(messageContent, configuration));
+                        plusFormatUnits(formatter, messageContent, configuration);
                     }
                 }
                 
                 if (expression) {
-                    items.add(itemAfterExpression);
+                    formatter.plus(expressionBraces.getRightUnit());
                 }
             }
-            return FormattingItem.toString(items, configuration.getFormattingConfiguration().isMinimizeSpaces());
+            return formatter.toString();
         }
-//        if (message instanceof )
-        
-        return null;
+
+        throw new IllegalArgumentException("Unexpected message type: " + message.getClass().getName());
     }
     
     public static Message deserialize(Reader reader) {
