@@ -4,7 +4,6 @@ import cn.codethink.xiaoming.common.Id;
 import cn.codethink.xiaoming.common.NumericalId;
 import cn.codethink.xiaoming.common.Resource;
 import cn.codethink.xiaoming.expression.Expression;
-import cn.codethink.xiaoming.expression.InvokeExpression;
 import cn.codethink.xiaoming.expression.InvokeExpressionImpl;
 import cn.codethink.xiaoming.expression.annotation.Analyzer;
 import cn.codethink.xiaoming.expression.annotation.Constructor;
@@ -21,7 +20,6 @@ import cn.codethink.xiaoming.message.content.Text;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import cn.codethink.xiaoming.util.Interpreters;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -32,22 +30,22 @@ public class MessageCodeTest {
     
     @Test
     public void analyzeAtAll() {
-        final Message deserialize = MessageCode.deserialize("#{AtAll()}");
+        final Message deserialize = MessageCode.deserializeFromMessageCode("#{AtAll()}");
         System.out.println(deserialize);
     }
     
     @Test
     public void test() {
-        Assertions.assertEquals(Text.of("小明真不辍"), MessageCode.deserialize("小明真不辍"));
+        Assertions.assertEquals(Text.of("小明真不辍"), MessageCode.deserializeFromMessageCode("小明真不辍"));
         
         final MultipleMessageContentsMessageChainImpl messageChain = new MultipleMessageContentsMessageChainImpl(Arrays.asList(Text.of("小明真不辍"), At.of(NumericalId.of(1437100907))));
-        Assertions.assertEquals(messageChain, MessageCode.deserialize("小明真不辍#{At(Id(1437100907))}"));
+        Assertions.assertEquals(messageChain, MessageCode.deserializeFromMessageCode("小明真不辍#{At(Id(1437100907))}"));
     }
     
     @Test
     public void serializeAt() {
         final At at = At.of(NumericalId.of(1437100907));
-        System.out.println(MessageCode.serialize(at));
+        System.out.println(MessageCodeImpl.serialize(at));
     }
     
     @Test
@@ -67,10 +65,10 @@ public class MessageCodeTest {
                 .build())
             .build();
         
-        final String messageCode = MessageCode.serialize(image, configuration);
+        final String messageCode = MessageCodeImpl.serialize(image, configuration);
         System.out.println(messageCode);
 
-        final Message message = MessageCode.deserialize(messageCode);
+        final Message message = MessageCode.deserializeFromMessageCode(messageCode);
         Assertions.assertEquals("#{ Image(Resource(File(\".github\\\\icons\\\\jetbrains.png\")), 0, 0, 0, null) }", messageCode);
         Assertions.assertEquals(image, message);
     }
@@ -81,7 +79,7 @@ public class MessageCodeTest {
         final int times = 50000;
         final long begin = System.currentTimeMillis();
         for (int i = 0; i < times; i++) {
-            MessageCode.deserialize(image);
+            MessageCode.deserializeFromMessageCode(image);
         }
         System.out.println(System.currentTimeMillis() - begin);
     }
@@ -112,14 +110,14 @@ public class MessageCodeTest {
         final int times = 50000;
         final long begin = System.currentTimeMillis();
         for (int i = 0; i < times; i++) {
-            MessageCode.serialize(message);
+            MessageCodeImpl.serialize(message);
         }
         System.out.println(System.currentTimeMillis() - begin);
     }
     
     @Test
     public void testNearExp() {
-        final MessageChain tripleImage = MessageChain.of(
+        final MessageChain messageChain = MessageChain.of(
             Text.of("咕"),
             Image.of(Resource.of(new File(".github/icons/jetbrains.png"))),
             Text.of("咕"),
@@ -129,7 +127,12 @@ public class MessageCodeTest {
         final SerializingConfiguration configuration = SerializingConfiguration.builder()
             .explicitText(true)
             .build();
-        
-        System.out.println(MessageCode.serialize(tripleImage, configuration));
+    
+        final int times = 50000;
+        final long begin = System.currentTimeMillis();
+        for (int i = 0; i < times; i++) {
+            messageChain.serializeToMessageCode();
+        }
+        System.out.println(System.currentTimeMillis() - begin);
     }
 }
