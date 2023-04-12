@@ -126,7 +126,7 @@ public class MessageCodeImpl {
             // text 状态时，获得 # 后接受 { 的状态
             boolean acceptingLeftBrace = false;
     
-            final List<MessageContent> segments = new ArrayList<>();
+            final List<MessageContent> messageContents = new ArrayList<>();
             final StringBuilder stringBuilder = new StringBuilder();
             
             while (reader.ready()) {
@@ -154,7 +154,7 @@ public class MessageCodeImpl {
                                 // 进入表达式解析状态
                                 if (stringBuilder.length() > 0) {
                                     final String content = stringBuilder.toString();
-                                    segments.add(Text.of(StringEscapeUtils.unescapeJava(content)));
+                                    messageContents.add(Text.of(StringEscapeUtils.unescapeJava(content)));
                                     stringBuilder.setLength(0);
                                 }
                                 text = false;
@@ -225,7 +225,7 @@ public class MessageCodeImpl {
                                     final Expression expression = InterpretersImpl.getInstance().compile(stringBuilder.toString());
                                     final Object result = expression.interpret();
                                     if (result instanceof MessageContent) {
-                                        segments.add((MessageContent) result);
+                                        messageContents.add((MessageContent) result);
                                     } else {
                                         throw new IllegalArgumentException("Unexpected result of internal expression: " + result + ", expected instances of " + Message.class.getName());
                                     }
@@ -252,7 +252,7 @@ public class MessageCodeImpl {
                                 final Expression expression = InterpretersImpl.getInstance().compile(stringBuilder.toString());
                                 final Object result = expression.interpret();
                                 if (result instanceof MessageContent) {
-                                    segments.add((MessageContent) result);
+                                    messageContents.add((MessageContent) result);
                                 } else {
                                     throw new IllegalArgumentException("Unexpected result of internal expression: " + result + ", expected instances of " + Message.class.getName());
                                 }
@@ -277,17 +277,17 @@ public class MessageCodeImpl {
             // 如果结尾有文本，则将其添加到列表中
             if (stringBuilder.length() > 0) {
                 final String content = stringBuilder.toString();
-                segments.add(Text.of(StringEscapeUtils.unescapeJava(content)));
+                messageContents.add(Text.of(StringEscapeUtils.unescapeJava(content)));
                 stringBuilder.setLength(0);
             }
             
-            if (segments.isEmpty()) {
+            if (messageContents.isEmpty()) {
                 throw new IllegalArgumentException("Empty message chain!");
             }
-            if (segments.size() == 1) {
-                return segments.get(0);
+            if (messageContents.size() == 1) {
+                return messageContents.get(0);
             }
-            return new MultipleMessageContentsMessageChainImpl(segments);
+            return new MultipleMessageContentsMessageChainImpl(messageContents);
         } catch (IOException e) {
             throw new DeserializingException("Exception thrown while checking if reader ready", e);
         }

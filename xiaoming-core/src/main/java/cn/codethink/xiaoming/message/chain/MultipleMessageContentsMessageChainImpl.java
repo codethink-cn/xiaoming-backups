@@ -113,13 +113,21 @@ public class MultipleMessageContentsMessageChainImpl
                 messageContents.add(Text.of(stringBuilder.toString()));
                 stringBuilder.setLength(0);
             }
-            if (messageContents.isEmpty()) {
+            if (messageContents == null || messageContents.isEmpty()) {
                 throw new IllegalArgumentException("No message content present!");
             }
-            if (messageContents.size() == 1) {
-                return new SingleMessageContentMessageChainImpl(messageContents.get(0));
+            final Set<MessageMetadata> messageMetadata;
+            if (this.messageMetadata == null) {
+                messageMetadata = Collections.emptySet();
+            } else if (this.messageMetadata.size() == 1) {
+                messageMetadata = Collections.singleton(this.messageMetadata.iterator().next());
             } else {
-                return new MultipleMessageContentsMessageChainImpl(new ArrayList<>(messageContents));
+                messageMetadata = new HashSet<>(this.messageMetadata);
+            }
+            if (messageContents.size() == 1) {
+                return new SingleMessageContentMessageChainImpl(messageContents.get(0), messageMetadata);
+            } else {
+                return new MultipleMessageContentsMessageChainImpl(new ArrayList<>(messageContents), messageMetadata);
             }
         }
     }
@@ -136,60 +144,8 @@ public class MultipleMessageContentsMessageChainImpl
         
         Preconditions.checkNotNull(messageContents, "Message contents are null!");
         Preconditions.checkArgument(!messageContents.isEmpty(), "Message contents are empty!");
-        
-        int previousTextIndex = -1;
-        List<MessageContent> contents = null;
-        StringBuilder stringBuilder = null;
-        
-        // 合并相邻的 Text
-        final int size = messageContents.size();
-        for (int i = 0; i < size; i++) {
-            final MessageContent messageContent = messageContents.get(i);
-            if (messageContent instanceof Text) {
-                if (previousTextIndex == -1) {
-                    previousTextIndex = i;
-                }
-            } else {
-                if (previousTextIndex != -1) {
-                    if (contents == null) {
-                        contents = new ArrayList<>(messageContents.size() - (i - previousTextIndex));
-                        for (int j = 0; j < previousTextIndex; j++) {
-                            contents.add(messageContents.get(j));
-                        }
-                    }
-                    if (stringBuilder == null) {
-                        stringBuilder = new StringBuilder();
-                    }
-                    for (int j = previousTextIndex; j < i; j++) {
-                        stringBuilder.append(messageContents.get(j).toString());
-                    }
-                    contents.add(Text.of(stringBuilder.toString()));
-                    stringBuilder.setLength(0);
-                    previousTextIndex = -1;
-                }
-            }
-        }
-        if (previousTextIndex != -1) {
-            if (contents == null) {
-                contents = new ArrayList<>(messageContents.size() - (size - previousTextIndex));
-                for (int j = 0; j < previousTextIndex; j++) {
-                    contents.add(messageContents.get(j));
-                }
-            }
-            if (stringBuilder == null) {
-                stringBuilder = new StringBuilder();
-            }
-            for (int j = previousTextIndex; j < size; j++) {
-                stringBuilder.append(messageContents.get(j).toString());
-            }
-            contents.add(Text.of(stringBuilder.toString()));
-        }
-        
-        if (contents == null) {
-            this.messageContents = Collections.unmodifiableList(messageContents);
-        } else {
-            this.messageContents = Collections.unmodifiableList(contents);
-        }
+    
+        this.messageContents = Collections.unmodifiableList(messageContents);
     }
     
     public MultipleMessageContentsMessageChainImpl(List<MessageContent> messageContents) {

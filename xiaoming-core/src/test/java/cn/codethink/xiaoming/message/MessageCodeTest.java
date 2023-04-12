@@ -119,8 +119,17 @@ public class MessageCodeTest {
     
     @Test
     public void testNearExp() {
-        final Image image = Image.of(Resource.of(new File(".github/icons/jetbrains.png")));
-        final MessageChain tripleImage = image.plus(image).plus(image);
-        System.out.println(MessageCode.serialize(tripleImage));
+        final MessageChain tripleImage = MessageChain.of(
+            Text.of("咕"),
+            Image.of(Resource.of(new File(".github/icons/jetbrains.png"))),
+            Text.of("咕"),
+            Text.of("咕咕咕")
+        );
+    
+        final SerializingConfiguration configuration = SerializingConfiguration.builder()
+            .explicitText(true)
+            .build();
+        
+        System.out.println(MessageCode.serialize(tripleImage, configuration));
     }
 }
