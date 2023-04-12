@@ -5,7 +5,7 @@ import cn.codethink.xiaoming.expression.Expression;
 import cn.codethink.xiaoming.expression.annotation.Analyzer;
 import cn.codethink.xiaoming.expression.annotation.Constructor;
 import cn.codethink.xiaoming.expression.annotation.Function;
-import cn.codethink.xiaoming.expression.lang.Interpreter;
+import cn.codethink.xiaoming.expression.interpreter.Interpreter;
 import cn.codethink.xiaoming.message.content.*;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -77,17 +77,17 @@ public class InterpretersImpl {
         
         @Analyzer(Resource.class)
         public Expression analyze(FileResourceImpl resource, Interpreter interpreter) {
-            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getFile(), Collections.singleton(interpreter))) + ")");
+            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getFile())) + ")");
         }
         
         @Analyzer(Resource.class)
         public Expression analyze(URLResourceImpl resource, Interpreter interpreter) {
-            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getUrl(), Collections.singleton(interpreter))) + ")");
+            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getUrl())) + ")");
         }
         
         @Analyzer(Resource.class)
         public Expression analyze(BytesResourceImpl resource, Interpreter interpreter) {
-            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getBytes(), Collections.singleton(interpreter))) + ")");
+            return interpreter.compile("Resource(" + interpreter.format(interpreter.analyze(resource.getBytes())) + ")");
         }
     }
     
@@ -159,7 +159,7 @@ public class InterpretersImpl {
     
         @Analyzer(At.class)
         public Expression analyzeAt(At at, Interpreter interpreter) {
-            return interpreter.compile("At(" + interpreter.format(interpreter.analyze(at.getId(), Collections.singleton(interpreter))) + ")");
+            return interpreter.compile("At(" + interpreter.format(interpreter.analyze(at.getId())) + ")");
         }
     
         @Constructor
@@ -189,7 +189,7 @@ public class InterpretersImpl {
         
         @Analyzer(Image.class)
         public Expression analyze(Image image, Interpreter interpreter) {
-            final String resource = interpreter.format(interpreter.analyze(image.getResource(), Collections.singleton(interpreter)));
+            final String resource = interpreter.format(interpreter.analyze(image.getResource()));
             return interpreter.compile("Image(" + resource + ", " + image.getWidth() + ", " + image.getHeight() + ", " + image.getSize() + ", " + image.getImageType() + ")");
         }
     }

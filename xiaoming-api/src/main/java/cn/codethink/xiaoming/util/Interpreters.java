@@ -1,7 +1,7 @@
 package cn.codethink.xiaoming.util;
 
 import cn.codethink.xiaoming.api.APIFactory;
-import cn.codethink.xiaoming.expression.lang.Interpreter;
+import cn.codethink.xiaoming.expression.interpreter.Interpreter;
 
 import java.util.NoSuchElementException;
 
