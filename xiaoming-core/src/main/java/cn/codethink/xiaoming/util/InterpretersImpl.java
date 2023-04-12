@@ -172,7 +172,7 @@ public class InterpretersImpl {
         }
         
         @Constructor
-        public Image constructImage(Resource resource, int width, int height, int size, ImageType imageType) {
+        public Image constructImage(Resource resource, Integer width, Integer height, Integer size, ImageType imageType) {
             return new ImageImpl(resource, width, height, size, imageType);
         }
         

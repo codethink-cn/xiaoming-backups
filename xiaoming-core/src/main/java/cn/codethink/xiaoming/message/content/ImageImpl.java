@@ -26,9 +26,9 @@ public class ImageImpl
     
     public ImageImpl(Resource resource, int width, int height, int size, ImageType imageType) {
         Preconditions.checkNotNull(resource, "Resource is null!");
-        Preconditions.checkArgument(width < 0, "Width must be greater than or equals to 0!");
-        Preconditions.checkArgument(size < 0, "Size must be greater than or equals to 0!");
-        Preconditions.checkArgument(height < 0, "Height must be greater than or equals to 0!");
+        Preconditions.checkArgument(width >= 0, "Width must be greater than or equals to 0!");
+        Preconditions.checkArgument(size >= 0, "Size must be greater than or equals to 0!");
+        Preconditions.checkArgument(height >= 0, "Height must be greater than or equals to 0!");
         
         this.resource = resource;
         this.width = width;
