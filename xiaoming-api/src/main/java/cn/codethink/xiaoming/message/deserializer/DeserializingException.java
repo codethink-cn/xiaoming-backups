@@ -1,6 +1,5 @@
 package cn.codethink.xiaoming.message.deserializer;
 
-import cn.codethink.xiaoming.expression.ExpressionException;
 import cn.codethink.xiaoming.message.MessageException;
 
 /**
