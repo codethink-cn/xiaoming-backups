@@ -34,7 +34,7 @@ public class AtImpl
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AtImpl at = (AtImpl) o;
+        final AtImpl at = (AtImpl) o;
         return Objects.equals(id, at.id);
     }
     
