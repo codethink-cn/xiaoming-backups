@@ -2,7 +2,7 @@ package cn.codethink.xiaoming.api;
 
 import cn.codethink.xiaoming.adapter.Adapter;
 import cn.codethink.xiaoming.common.*;
-import cn.codethink.xiaoming.expression.lang.Interpreter;
+import cn.codethink.xiaoming.expression.interpreter.Interpreter;
 import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.Message;
