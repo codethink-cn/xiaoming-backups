@@ -2,7 +2,7 @@ package cn.codethink.xiaoming.message.chain;
 
 import cn.codethink.xiaoming.api.APIFactory;
 import cn.codethink.xiaoming.message.Message;
-import cn.codethink.xiaoming.message.element.MessageElement;
+import cn.codethink.xiaoming.message.content.MessageContent;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Chuanwise
  */
 public interface MessageChain
-    extends Message, List<MessageElement> {
+    extends Message, List<MessageContent> {
     
     /**
      * 消息链构建器
@@ -24,12 +24,12 @@ public interface MessageChain
     interface Builder {
     
         /**
-         * 添加消息元素
+         * 添加消息片段
          *
-         * @param messageElement 消息元素
+         * @param messageContent 消息片段
          * @return 消息链构建器
          */
-        Builder plus(MessageElement messageElement);
+        Builder plus(MessageContent messageContent);
     
         /**
          * 添加文本消息
@@ -42,10 +42,10 @@ public interface MessageChain
         /**
          * 添加若干消息
          *
-         * @param messageElements 若干消息
+         * @param messageContents 若干消息
          * @return 消息链构建器
          */
-        Builder plus(MessageElement... messageElements);
+        Builder plus(MessageContent... messageContents);
     
         /**
          * 添加消息链
@@ -73,22 +73,22 @@ public interface MessageChain
     }
     
     /**
-     * 通过若干消息元素构建消息链
+     * 通过若干消息片段构建消息链
      *
-     * @param messageElements 若干消息元素
+     * @param messageContents 若干消息片段
      * @return 消息链
      */
-    static MessageChain of(MessageElement... messageElements) {
-        return APIFactory.getInstance().getMessageChain(messageElements);
+    static MessageChain of(MessageContent... messageContents) {
+        return APIFactory.getInstance().getMessageChain(messageContents);
     }
     
     /**
-     * 通过消息元素构建消息链
+     * 通过消息片段构建消息链
      *
-     * @param messageElement 消息元素
+     * @param messageContent 消息片段
      * @return 消息链
      */
-    static MessageChain of(MessageElement messageElement) {
-        return APIFactory.getInstance().getMessageChain(messageElement);
+    static MessageChain of(MessageContent messageContent) {
+        return APIFactory.getInstance().getMessageChain(messageContent);
     }
 }

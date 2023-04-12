@@ -54,4 +54,8 @@ public class FileResourceImpl
         }
         return toStringCache;
     }
+    
+    public File getFile() {
+        return file;
+    }
 }

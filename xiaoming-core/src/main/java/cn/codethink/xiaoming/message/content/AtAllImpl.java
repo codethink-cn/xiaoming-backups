@@ -1,10 +1,10 @@
-package cn.codethink.xiaoming.message.element;
+package cn.codethink.xiaoming.message.content;
 
 public class AtAllImpl
     implements AtAll {
     
     private static final AtAllImpl INSTANCE = new AtAllImpl();
-    
+
     private AtAllImpl() {
     }
     

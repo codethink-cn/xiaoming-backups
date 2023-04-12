@@ -9,8 +9,8 @@ import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.chain.MessageChainImpl;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingException;
-import cn.codethink.xiaoming.message.element.MessageElement;
-import cn.codethink.xiaoming.message.element.Text;
+import cn.codethink.xiaoming.message.content.MessageContent;
+import cn.codethink.xiaoming.message.content.Text;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import cn.codethink.xiaoming.util.Interpreters;
 import com.google.common.base.Preconditions;
@@ -28,13 +28,13 @@ public class MessageCodeImpl {
         throw new NoSuchElementException("No " + MessageCodeImpl.class.getName() + " instances for you!");
     }
     
-    private static FormattingItem serializeSingleMessage(MessageElement messageElement, SerializingConfiguration configuration) {
-        if (messageElement instanceof Text && !configuration.isExplicitText()) {
-            return new FormattingTextItem(StringEscapeUtils.escapeJava(messageElement.toString()));
+    private static FormattingItem serializeMessageContent(MessageContent messageContent, SerializingConfiguration configuration) {
+        if (messageContent instanceof Text && !configuration.isExplicitText()) {
+            return new FormattingTextItem(StringEscapeUtils.escapeJava(messageContent.toString()));
         }
     
         final ConfigurableInterpreter interpreter = Interpreters.getInstance();
-        final Expression expression = interpreter.analyze(messageElement, configuration.getAnalyzingConfiguration());
+        final Expression expression = interpreter.analyze(messageContent, configuration.getAnalyzingConfiguration());
         final FormattingConfiguration formattingConfiguration = configuration.getFormattingConfiguration();
         
         return new FormattingTextItem(interpreter.format(expression, formattingConfiguration));
@@ -50,8 +50,8 @@ public class MessageCodeImpl {
         Preconditions.checkNotNull(message, "Message is null!");
         Preconditions.checkNotNull(configuration, "Serializing configuration is null!");
     
-        if (message instanceof MessageElement) {
-            return FormattingItem.toString(Collections.singletonList(serializeSingleMessage((MessageElement) message, configuration)),
+        if (message instanceof MessageContent) {
+            return FormattingItem.toString(Collections.singletonList(serializeMessageContent((MessageContent) message, configuration)),
                 configuration.getFormattingConfiguration().isMinimizeSpaces());
         }
         if (message instanceof MessageChain) {
@@ -71,27 +71,27 @@ public class MessageCodeImpl {
             final List<FormattingItem> items = new ArrayList<>();
             if (configuration.isExplicitText()) {
                 items.add(itemBeforeExpression);
-                items.add(serializeSingleMessage(messageChain.get(0), configuration));
+                items.add(serializeMessageContent(messageChain.get(0), configuration));
                 for (int i = 1; i < size; i++) {
                     items.add(comma);
-                    items.add(serializeSingleMessage(messageChain.get(i), configuration));
+                    items.add(serializeMessageContent(messageChain.get(i), configuration));
                 }
                 items.add(itemAfterExpression);
             } else {
                 boolean expression = false;
-                for (MessageElement messageElement : messageChain) {
+                for (MessageContent messageContent : messageChain) {
                     if (expression) {
-                        if (messageElement instanceof Text) {
+                        if (messageContent instanceof Text) {
                             items.add(itemAfterExpression);
                             expression = false;
                         }
-                        items.add(serializeSingleMessage(messageElement, configuration));
+                        items.add(serializeMessageContent(messageContent, configuration));
                     } else {
-                        if (!(messageElement instanceof Text)) {
+                        if (!(messageContent instanceof Text)) {
                             expression = true;
                             items.add(itemBeforeExpression);
                         }
-                        items.add(serializeSingleMessage(messageElement, configuration));
+                        items.add(serializeMessageContent(messageContent, configuration));
                     }
                 }
                 
@@ -129,7 +129,7 @@ public class MessageCodeImpl {
             // text 状态时，获得 # 后接受 { 的状态
             boolean acceptingLeftBrace = false;
     
-            final List<MessageElement> segments = new ArrayList<>();
+            final List<MessageContent> segments = new ArrayList<>();
             final StringBuilder stringBuilder = new StringBuilder();
             
             while (reader.ready()) {
@@ -226,8 +226,8 @@ public class MessageCodeImpl {
                                 if (depth == 0) {
                                     final Expression expression = Interpreters.getInstance().compile(stringBuilder.toString(), configuration.getCompilingConfiguration());
                                     final Object result = expression.calculate();
-                                    if (result instanceof MessageElement) {
-                                        segments.add((MessageElement) result);
+                                    if (result instanceof MessageContent) {
+                                        segments.add((MessageContent) result);
                                     } else {
                                         throw new IllegalArgumentException("Unexpected result of internal expression: " + result + ", expected instances of " + Message.class.getName());
                                     }
@@ -253,8 +253,8 @@ public class MessageCodeImpl {
                                 // 编译前面的表达式
                                 final Expression expression = Interpreters.getInstance().compile(stringBuilder.toString(), configuration.getCompilingConfiguration());
                                 final Object result = expression.calculate();
-                                if (result instanceof MessageElement) {
-                                    segments.add((MessageElement) result);
+                                if (result instanceof MessageContent) {
+                                    segments.add((MessageContent) result);
                                 } else {
                                     throw new IllegalArgumentException("Unexpected result of internal expression: " + result + ", expected instances of " + Message.class.getName());
                                 }
