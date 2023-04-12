@@ -71,4 +71,6 @@ public interface API {
     Image getImage(Resource resource, int width, int height, int size, ImageType imageType);
     ImageType getImageType(String imageType);
     Set<ImageType> getImageTypes();
+    
+    Flash getFlash(Image image);
 }
