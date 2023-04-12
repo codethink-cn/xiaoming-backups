@@ -7,7 +7,7 @@ import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.chain.MessageChainImpl;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfigurationImpl;
-import cn.codethink.xiaoming.message.element.*;
+import cn.codethink.xiaoming.message.content.*;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import cn.codethink.xiaoming.message.serializer.SerializingConfigurationImpl;
 import com.google.common.base.Preconditions;
@@ -18,6 +18,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class APIImpl
@@ -84,6 +85,16 @@ public class APIImpl
     }
     
     @Override
+    public IM getIM(String name) {
+        return IMImpl.getInstance(name);
+    }
+    
+    @Override
+    public Set<IM> getIMs() {
+        return IMImpl.getInstances();
+    }
+    
+    @Override
     public Text getText(String text) {
         return new TextImpl(text);
     }
@@ -140,28 +151,28 @@ public class APIImpl
     
     
     @Override
-    public MessageChain getMessageChain(MessageElement... messageElements) {
-        Preconditions.checkNotNull(messageElements, "Message elements are null!");
-        if (messageElements.length == 0) {
+    public MessageChain getMessageChain(MessageContent... messageContents) {
+        Preconditions.checkNotNull(messageContents, "Message contents are null!");
+        if (messageContents.length == 0) {
             throw new IllegalArgumentException("No message element present!");
         }
         
-        for (int i = 0; i < messageElements.length; i++) {
-            if (messageElements[i] == null) {
+        for (int i = 0; i < messageContents.length; i++) {
+            if (messageContents[i] == null) {
                 throw new NullPointerException("Null message element at position " + (i + 1));
             }
         }
-        if (messageElements.length == 1) {
-            return new MessageChainImpl(Collections.singletonList(messageElements[0]));
+        if (messageContents.length == 1) {
+            return new MessageChainImpl(Collections.singletonList(messageContents[0]));
         } else {
-            return new MessageChainImpl(Arrays.asList(messageElements));
+            return new MessageChainImpl(Arrays.asList(messageContents));
         }
     }
     
     @Override
-    public MessageChain getMessageChain(MessageElement messageElement) {
-        Preconditions.checkNotNull(messageElement, "Message element is null!");
-        return new MessageChainImpl(Collections.singletonList(messageElement));
+    public MessageChain getMessageChain(MessageContent messageContent) {
+        Preconditions.checkNotNull(messageContent, "Message content is null!");
+        return new MessageChainImpl(Collections.singletonList(messageContent));
     }
     
     @Override
@@ -205,7 +216,21 @@ public class APIImpl
     
     @Override
     public Image getImage(Resource resource) {
-        // TODO
-        return null;
+        return new ImageImpl(resource, 0, 0, 0, null);
+    }
+    
+    @Override
+    public Image getImage(Resource resource, int width, int height, int size, ImageType imageType) {
+        return new ImageImpl(resource, width, height, size, imageType);
+    }
+    
+    @Override
+    public ImageType getImageType(String imageType) {
+        return ImageTypeImpl.getInstance(imageType);
+    }
+    
+    @Override
+    public Set<ImageType> getImageTypes() {
+        return ImageTypeImpl.getInstances();
     }
 }

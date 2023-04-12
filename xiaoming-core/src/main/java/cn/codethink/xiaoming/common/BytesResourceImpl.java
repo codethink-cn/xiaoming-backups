@@ -25,7 +25,7 @@ public class BytesResourceImpl
     }
     
     @Override
-    public InputStream open() throws IOException {
+    public InputStream open() {
         return new ByteArrayInputStream(bytes);
     }
     
@@ -55,5 +55,9 @@ public class BytesResourceImpl
             toStringCache = Base64.getEncoder().encodeToString(bytes);
         }
         return toStringCache;
+    }
+    
+    public byte[] getBytes() {
+        return bytes;
     }
 }

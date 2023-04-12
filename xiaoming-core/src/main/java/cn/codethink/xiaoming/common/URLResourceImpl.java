@@ -54,4 +54,8 @@ public class URLResourceImpl
         }
         return toStringCache;
     }
+    
+    public URL getUrl() {
+        return url;
+    }
 }

@@ -1,8 +1,8 @@
 package cn.codethink.xiaoming.message.chain;
 
 import cn.codethink.xiaoming.message.MessageCode;
-import cn.codethink.xiaoming.message.element.MessageElement;
-import cn.codethink.xiaoming.message.element.Text;
+import cn.codethink.xiaoming.message.content.MessageContent;
+import cn.codethink.xiaoming.message.content.Text;
 import com.google.common.base.Preconditions;
 
 import java.util.*;
@@ -13,12 +13,12 @@ public class MessageChainImpl
     public static class BuilderImpl
         implements Builder {
     
-        private final ArrayList<MessageElement> messageElements = new ArrayList<>();
+        private final ArrayList<MessageContent> messageContents = new ArrayList<>();
     
         @Override
-        public Builder plus(MessageElement messageElement) {
-            Preconditions.checkNotNull(messageElement, "Single Message is null!");
-            messageElements.add(messageElement);
+        public Builder plus(MessageContent messageContent) {
+            Preconditions.checkNotNull(messageContent, "Message content is null!");
+            messageContents.add(messageContent);
             return this;
         }
     
@@ -28,10 +28,10 @@ public class MessageChainImpl
         }
     
         @Override
-        public Builder plus(MessageElement... messageElements) {
-            Preconditions.checkNotNull(messageElements, "Single Message is null!");
-            for (MessageElement messageElement : messageElements) {
-                plus(messageElement);
+        public Builder plus(MessageContent... messageContents) {
+            Preconditions.checkNotNull(messageContents, "Message content is null!");
+            for (MessageContent messageContent : messageContents) {
+                plus(messageContent);
             }
             return this;
         }
@@ -39,8 +39,8 @@ public class MessageChainImpl
         @Override
         public Builder plus(MessageChain messageChain) {
             Preconditions.checkNotNull(messageChain, "Message chain is null!");
-            for (MessageElement messageElement : messageChain) {
-                plus(messageElement);
+            for (MessageContent messageContent : messageChain) {
+                plus(messageContent);
             }
             return this;
         }
@@ -48,26 +48,26 @@ public class MessageChainImpl
         @Override
         @SuppressWarnings("unchecked")
         public MessageChain build() {
-            if (messageElements.isEmpty()) {
+            if (messageContents.isEmpty()) {
                 throw new IllegalArgumentException("No message element present!");
             }
-            if (messageElements.size() == 1) {
-                return new MessageChainImpl(Collections.singletonList(messageElements.get(0)));
+            if (messageContents.size() == 1) {
+                return new MessageChainImpl(Collections.singletonList(messageContents.get(0)));
             } else {
-                return new MessageChainImpl((List<MessageElement>) messageElements.clone());
+                return new MessageChainImpl((List<MessageContent>) messageContents.clone());
             }
         }
     }
     
-    private static final MessageElement[] EMPTY_MESSAGE_SEGMENT_ARRAY = {};
+    private static final MessageContent[] EMPTY_MESSAGE_SEGMENT_ARRAY = {};
     
-    private final List<MessageElement> segments;
+    private final List<MessageContent> segments;
     
     private String toStringCache;
     private Integer hashCodeCache;
     
-    public MessageChainImpl(List<MessageElement> segments) {
-        Preconditions.checkNotNull(segments, "Message segments are null!");
+    public MessageChainImpl(List<MessageContent> segments) {
+        Preconditions.checkNotNull(segments, "Message contents are null!");
         this.segments = Collections.unmodifiableList(segments);
     }
     
@@ -87,7 +87,7 @@ public class MessageChainImpl
     }
     
     @Override
-    public Iterator<MessageElement> iterator() {
+    public Iterator<MessageContent> iterator() {
         return segments.iterator();
     }
     
@@ -102,7 +102,7 @@ public class MessageChainImpl
     }
     
     @Override
-    public boolean add(MessageElement messageElement) {
+    public boolean add(MessageContent messageContent) {
         throw new UnsupportedOperationException("Message chain is unmodifiable!");
     }
     
@@ -117,12 +117,12 @@ public class MessageChainImpl
     }
     
     @Override
-    public boolean addAll(Collection<? extends MessageElement> c) {
+    public boolean addAll(Collection<? extends MessageContent> c) {
         throw new UnsupportedOperationException("Message chain is unmodifiable!");
     }
     
     @Override
-    public boolean addAll(int index, Collection<? extends MessageElement> c) {
+    public boolean addAll(int index, Collection<? extends MessageContent> c) {
         throw new UnsupportedOperationException("Message chain is unmodifiable!");
     }
     
@@ -142,22 +142,22 @@ public class MessageChainImpl
     }
     
     @Override
-    public MessageElement get(int index) {
+    public MessageContent get(int index) {
         return segments.get(index);
     }
     
     @Override
-    public MessageElement set(int index, MessageElement element) {
+    public MessageContent set(int index, MessageContent element) {
         throw new UnsupportedOperationException("Message chain is unmodifiable!");
     }
     
     @Override
-    public void add(int index, MessageElement element) {
+    public void add(int index, MessageContent element) {
         throw new UnsupportedOperationException("Message chain is unmodifiable!");
     }
     
     @Override
-    public MessageElement remove(int index) {
+    public MessageContent remove(int index) {
         throw new UnsupportedOperationException("Message chain is unmodifiable!");
     }
     
@@ -172,17 +172,17 @@ public class MessageChainImpl
     }
     
     @Override
-    public ListIterator<MessageElement> listIterator() {
+    public ListIterator<MessageContent> listIterator() {
         return segments.listIterator();
     }
     
     @Override
-    public ListIterator<MessageElement> listIterator(int index) {
+    public ListIterator<MessageContent> listIterator(int index) {
         return segments.listIterator(index);
     }
     
     @Override
-    public List<MessageElement> subList(int fromIndex, int toIndex) {
+    public List<MessageContent> subList(int fromIndex, int toIndex) {
         return segments.subList(fromIndex, toIndex);
     }
     
