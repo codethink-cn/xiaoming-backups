@@ -1,5 +1,7 @@
 package cn.codethink.xiaoming.relation;
 
+import cn.codethink.xiaoming.message.metadata.MessageMetadata;
+
 /**
  * <h1>关系</h1>
  *
@@ -9,5 +11,6 @@ package cn.codethink.xiaoming.relation;
  * @see Individual
  * @see Crowd
  */
-public interface Relation {
+public interface Relation
+    extends MessageMetadata {
 }

@@ -4,7 +4,7 @@ import cn.codethink.xiaoming.common.NumericalId;
 import cn.codethink.xiaoming.expression.Expression;
 import cn.codethink.xiaoming.expression.compiler.CompilingException;
 import cn.codethink.xiaoming.expression.interpreter.ConfigurableInterpreter;
-import cn.codethink.xiaoming.message.chain.MessageChainImpl;
+import cn.codethink.xiaoming.message.chain.MultipleContentsMessageImplChain;
 import cn.codethink.xiaoming.message.content.At;
 import cn.codethink.xiaoming.message.content.Text;
 import cn.codethink.xiaoming.util.Interpreters;
@@ -30,7 +30,7 @@ public class MessageCodeTest {
     public void test() {
         Assertions.assertEquals(Text.of("小明真不辍"), MessageCode.deserialize("小明真不辍"));
         
-        final MessageChainImpl messageChain = new MessageChainImpl(Arrays.asList(Text.of("小明真不辍"), At.of(NumericalId.of(1437100907))));
+        final MultipleContentsMessageImplChain messageChain = new MultipleContentsMessageImplChain(Arrays.asList(Text.of("小明真不辍"), At.of(NumericalId.of(1437100907))));
         Assertions.assertEquals(messageChain, MessageCode.deserialize("小明真不辍#{At(Id(1437100907))}"));
     }
     

@@ -1,4 +1,7 @@
 package cn.codethink.xiaoming.relation;
 
-public interface User {
+import cn.codethink.xiaoming.common.BotObject;
+
+public interface User
+    extends Individual, BotObject {
 }

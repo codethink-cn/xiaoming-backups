@@ -1,16 +1,18 @@
 package cn.codethink.xiaoming.message.content;
 
 import cn.codethink.xiaoming.common.Id;
+import cn.codethink.xiaoming.message.AbstractMessage;
 import com.google.common.base.Preconditions;
 
 import java.util.Objects;
 
 public class AtImpl
+    extends AbstractMessageContent
     implements At {
     
     private final Id id;
     
-    private String toStringCache;
+    private String summarizeCache;
     private Integer hashCodeCache;
     
     public AtImpl(Id id) {
@@ -45,10 +47,10 @@ public class AtImpl
     }
     
     @Override
-    public String toString() {
-        if (toStringCache == null) {
-            toStringCache = "@" + id;
+    public String summarize() {
+        if (summarizeCache == null) {
+            summarizeCache = "@" + id;
         }
-        return toStringCache;
+        return summarizeCache;
     }
 }

@@ -6,7 +6,7 @@ import cn.codethink.xiaoming.expression.formatter.FormattingItem;
 import cn.codethink.xiaoming.expression.formatter.FormattingTextItem;
 import cn.codethink.xiaoming.expression.interpreter.ConfigurableInterpreter;
 import cn.codethink.xiaoming.message.chain.MessageChain;
-import cn.codethink.xiaoming.message.chain.MessageChainImpl;
+import cn.codethink.xiaoming.message.chain.MultipleContentsMessageImplChain;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingException;
 import cn.codethink.xiaoming.message.content.MessageContent;
@@ -289,7 +289,7 @@ public class MessageCodeImpl {
             if (segments.size() == 1) {
                 return segments.get(0);
             }
-            return new MessageChainImpl(segments);
+            return new MultipleContentsMessageImplChain(segments);
         } catch (IOException e) {
             throw new DeserializingException("Exception thrown while checking if reader ready", e);
         }

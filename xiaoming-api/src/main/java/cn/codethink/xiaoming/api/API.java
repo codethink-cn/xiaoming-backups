@@ -1,5 +1,6 @@
 package cn.codethink.xiaoming.api;
 
+import cn.codethink.xiaoming.adapter.Adapter;
 import cn.codethink.xiaoming.common.*;
 import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
@@ -36,8 +37,8 @@ public interface API {
     StringId getEmptyStringId();
     StringId getStringId(String value);
     
-    IM getIM(String name);
-    Set<IM> getIMs();
+    Adapter getIM(String name);
+    Set<Adapter> getIMs();
     
     Text getText(String text);
     At getAt(Id id);
