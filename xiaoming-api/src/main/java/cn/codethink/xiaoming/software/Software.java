@@ -1,4 +1,4 @@
-package cn.codethink.xiaoming.common;
+package cn.codethink.xiaoming.software;
 
 import cn.codethink.xiaoming.api.APIFactory;
 
@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author Chuanwise
  */
-public interface IM {
+public interface Software {
     
     /**
      * 获取即时通讯软件
@@ -17,7 +17,7 @@ public interface IM {
      * @param name 即时通讯软件名
      * @return 即时通讯软件
      */
-    static IM of(String name) {
+    static Software of(String name) {
         return APIFactory.getInstance().getIM(name);
     }
     
@@ -26,7 +26,7 @@ public interface IM {
      *
      * @return 目前的所有即时通讯软件
      */
-    static Set<IM> getInstances() {
+    static Set<Software> getInstances() {
         return APIFactory.getInstance().getIMs();
     }
 }
