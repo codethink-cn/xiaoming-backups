@@ -3,11 +3,10 @@ package cn.codethink.xiaoming.api;
 import cn.codethink.xiaoming.adapter.Adapter;
 import cn.codethink.xiaoming.common.*;
 import cn.codethink.xiaoming.expression.lang.Interpreter;
-import cn.codethink.xiaoming.expression.lang.InterpreterImpl;
 import cn.codethink.xiaoming.message.Message;
 import cn.codethink.xiaoming.message.MessageCodeImpl;
 import cn.codethink.xiaoming.message.chain.MessageChain;
-import cn.codethink.xiaoming.message.chain.MultipleContentsMessageImplChain;
+import cn.codethink.xiaoming.message.chain.MultipleMessageContentsMessageChainImpl;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfigurationImpl;
 import cn.codethink.xiaoming.message.content.*;
@@ -167,21 +166,21 @@ public class APIImpl
             }
         }
         if (messageContents.length == 1) {
-            return new MultipleContentsMessageImplChain(Collections.singletonList(messageContents[0]));
+            return new MultipleMessageContentsMessageChainImpl(Collections.singletonList(messageContents[0]));
         } else {
-            return new MultipleContentsMessageImplChain(Arrays.asList(messageContents));
+            return new MultipleMessageContentsMessageChainImpl(Arrays.asList(messageContents));
         }
     }
     
     @Override
     public MessageChain getMessageChain(MessageContent messageContent) {
         Preconditions.checkNotNull(messageContent, "Message content is null!");
-        return new MultipleContentsMessageImplChain(Collections.singletonList(messageContent));
+        return new MultipleMessageContentsMessageChainImpl(Collections.singletonList(messageContent));
     }
     
     @Override
     public MessageChain.Builder getMessageChainBuilder() {
-        return new MultipleContentsMessageImplChain.BuilderImpl();
+        return new MultipleMessageContentsMessageChainImpl.BuilderImpl();
     }
     
     @Override

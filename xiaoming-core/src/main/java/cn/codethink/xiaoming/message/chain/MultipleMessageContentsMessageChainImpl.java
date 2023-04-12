@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 
 import java.util.*;
 
-public class MultipleContentsMessageImplChain
+public class MultipleMessageContentsMessageChainImpl
     extends AbstractMessageChain
     implements MessageChain {
     
@@ -117,9 +117,9 @@ public class MultipleContentsMessageImplChain
                 throw new IllegalArgumentException("No message content present!");
             }
             if (messageContents.size() == 1) {
-                return new SingleMessageContentMessageImplChain(messageContents.get(0));
+                return new SingleMessageContentMessageChainImpl(messageContents.get(0));
             } else {
-                return new MultipleContentsMessageImplChain(new ArrayList<>(messageContents));
+                return new MultipleMessageContentsMessageChainImpl(new ArrayList<>(messageContents));
             }
         }
     }
@@ -131,7 +131,7 @@ public class MultipleContentsMessageImplChain
     
     private Integer hashCodeCache;
     
-    public MultipleContentsMessageImplChain(List<MessageContent> messageContents, Set<MessageMetadata> messageMetadata) {
+    public MultipleMessageContentsMessageChainImpl(List<MessageContent> messageContents, Set<MessageMetadata> messageMetadata) {
         super(messageMetadata);
         
         Preconditions.checkNotNull(messageContents, "Message contents are null!");
@@ -192,7 +192,7 @@ public class MultipleContentsMessageImplChain
         }
     }
     
-    public MultipleContentsMessageImplChain(List<MessageContent> messageContents) {
+    public MultipleMessageContentsMessageChainImpl(List<MessageContent> messageContents) {
         this(messageContents, Collections.emptySet());
     }
     
@@ -237,9 +237,9 @@ public class MultipleContentsMessageImplChain
         final int size = end - begin;
         Preconditions.checkArgument(size > 0, "Unexpected size: " + size);
         if (size == 1) {
-            return new SingleMessageContentMessageImplChain(messageContents.get(begin));
+            return new SingleMessageContentMessageChainImpl(messageContents.get(begin));
         } else {
-            return new MultipleContentsMessageImplChain(messageContents.subList(begin, end));
+            return new MultipleMessageContentsMessageChainImpl(messageContents.subList(begin, end));
         }
     }
     

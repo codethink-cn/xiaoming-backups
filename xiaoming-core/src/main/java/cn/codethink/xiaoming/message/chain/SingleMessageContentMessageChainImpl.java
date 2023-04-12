@@ -3,7 +3,6 @@ package cn.codethink.xiaoming.message.chain;
 import cn.codethink.xiaoming.message.content.MessageContent;
 import cn.codethink.xiaoming.message.metadata.MessageMetadata;
 import com.google.common.base.Preconditions;
-import javafx.scene.effect.SepiaTone;
 import org.apache.commons.collections4.iterators.SingletonIterator;
 
 import java.util.Collections;
@@ -11,7 +10,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
-public class SingleMessageContentMessageImplChain
+public class SingleMessageContentMessageChainImpl
     extends AbstractMessageChain
     implements MessageChain {
     
@@ -19,11 +18,11 @@ public class SingleMessageContentMessageImplChain
 
     private MessageContent[] toArrayCache;
     
-    public SingleMessageContentMessageImplChain(MessageContent messageContent) {
+    public SingleMessageContentMessageChainImpl(MessageContent messageContent) {
         this(messageContent, Collections.emptySet());
     }
     
-    public SingleMessageContentMessageImplChain(MessageContent messageContent, Set<MessageMetadata> messageMetadata) {
+    public SingleMessageContentMessageChainImpl(MessageContent messageContent, Set<MessageMetadata> messageMetadata) {
         super(messageMetadata);
         
         Preconditions.checkNotNull(messageContent, "Message content is null!");

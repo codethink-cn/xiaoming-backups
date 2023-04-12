@@ -6,13 +6,12 @@ import cn.codethink.xiaoming.expression.formatter.FormattingItem;
 import cn.codethink.xiaoming.expression.formatter.FormattingTextItem;
 import cn.codethink.xiaoming.expression.lang.Interpreter;
 import cn.codethink.xiaoming.message.chain.MessageChain;
-import cn.codethink.xiaoming.message.chain.MultipleContentsMessageImplChain;
+import cn.codethink.xiaoming.message.chain.MultipleMessageContentsMessageChainImpl;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingException;
 import cn.codethink.xiaoming.message.content.MessageContent;
 import cn.codethink.xiaoming.message.content.Text;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
-import cn.codethink.xiaoming.util.Interpreters;
 import cn.codethink.xiaoming.util.InterpretersImpl;
 import com.google.common.base.Preconditions;
 import org.apache.commons.text.StringEscapeUtils;
@@ -294,7 +293,7 @@ public class MessageCodeImpl {
             if (segments.size() == 1) {
                 return segments.get(0);
             }
-            return new MultipleContentsMessageImplChain(segments);
+            return new MultipleMessageContentsMessageChainImpl(segments);
         } catch (IOException e) {
             throw new DeserializingException("Exception thrown while checking if reader ready", e);
         }
