@@ -25,6 +25,5 @@ public interface Text
      *
      * @return 文本数据
      */
-    @Override
-    String toString();
+    String getText();
 }

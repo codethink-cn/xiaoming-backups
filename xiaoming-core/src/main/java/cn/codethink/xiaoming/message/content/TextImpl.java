@@ -32,6 +32,11 @@ public class TextImpl
     }
     
     @Override
+    public String getText() {
+        return text;
+    }
+    
+    @Override
     public int hashCode() {
         if (hashCodeCache == null) {
             hashCodeCache = Objects.hash(text);
