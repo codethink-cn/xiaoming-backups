@@ -30,6 +30,10 @@ public class MultipleMessageContentsMessageChainImpl
             if (messageContents == null) {
                 messageContents = new ArrayList<>();
             }
+            if (stringBuilder != null && stringBuilder.length() > 0) {
+                messageContents.add(Text.of(stringBuilder.toString()));
+                stringBuilder.setLength(0);
+            }
         }
     
         public void prepareMessageMetadata() {
@@ -42,10 +46,7 @@ public class MultipleMessageContentsMessageChainImpl
         public Builder plus(MessageContent messageContent) {
             Preconditions.checkNotNull(messageContent, "Message content is null!");
             if (messageContent instanceof Text) {
-                if (stringBuilder == null) {
-                    stringBuilder = new StringBuilder();
-                }
-                stringBuilder.append(messageContent);
+                plus(((Text) messageContent).getText());
             } else {
                 prepareMessageContents();
                 if (stringBuilder != null && stringBuilder.length() > 1) {

@@ -149,7 +149,7 @@ public class InterpretersImpl {
     
         @Analyzer(Text.class)
         public Expression analyzeText(Text text, Interpreter interpreter) {
-            return interpreter.compile("Text(\"" + StringEscapeUtils.escapeJava(text.toString()) + "\")");
+            return interpreter.compile("Text(\"" + StringEscapeUtils.escapeJava(text.getText()) + "\")");
         }
     
         @Constructor

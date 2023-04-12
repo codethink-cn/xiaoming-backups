@@ -1,7 +1,9 @@
 package cn.codethink.xiaoming.message;
 
+import cn.codethink.xiaoming.expression.format.FormatConfiguration;
 import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.content.MessageContent;
+import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 
 /**
  * <h1>消息</h1>
@@ -21,4 +23,19 @@ public interface Message
      * @return 消息概要
      */
     String summarize();
+    
+    /**
+     * 序列化为消息码
+     *
+     * @return 消息码
+     */
+    String serializeToMessageCode();
+    
+    /**
+     * 序列化为消息码
+     *
+     * @param configuration 序列化配置
+     * @return 消息码
+     */
+    String serializeToMessageCode(SerializingConfiguration configuration);
 }
