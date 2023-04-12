@@ -10,7 +10,7 @@ import cn.codethink.xiaoming.message.Message;
  * @author Chuanwise
  */
 public interface Image
-    extends Message {
+    extends MessageContent {
     
     /**
      * 构造图像
