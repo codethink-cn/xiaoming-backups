@@ -5,6 +5,8 @@ allprojects {
 
 ext {
     junitVersion = '5.9.2'
-    expressionVersion = '1.1.0-SNAPSHOT'
+    expressionVersion = '1.0.0-SNAPSHOT'
+    guavaVersion = '31.1-jre'
+
     publishScriptFile = new File(project.rootDir, 'publish.gradle')
 }
