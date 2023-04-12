@@ -47,6 +47,7 @@ public class MultipleContentsMessageImplChain
                 }
                 stringBuilder.append(messageContent);
             } else {
+                prepareMessageContents();
                 if (stringBuilder != null && stringBuilder.length() > 1) {
                     messageContents.add(Text.of(stringBuilder.toString()));
                     stringBuilder.setLength(0);
