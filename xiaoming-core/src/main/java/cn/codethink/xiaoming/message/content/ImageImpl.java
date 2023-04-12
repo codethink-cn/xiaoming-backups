@@ -109,7 +109,7 @@ public class ImageImpl
     @Override
     public int hashCode() {
         if (hashCodeCache == null) {
-            hashCodeCache = super.hashCode() * 31 + Objects.hash(resource, width, height, size, imageType);
+            hashCodeCache = Objects.hash(resource, width, height, size, imageType);
         }
         return hashCodeCache;
     }

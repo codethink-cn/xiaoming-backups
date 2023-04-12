@@ -9,6 +9,7 @@ public class FlashImpl
     implements Flash {
     
     private static final String DEFAULT_SUMMARY = "[闪照]";
+    
     private final Image image;
     
     private Integer hashCodeCache;

@@ -27,8 +27,8 @@ public class TextImpl
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TextImpl text1 = (TextImpl) o;
-        return Objects.equals(text, text1.text);
+        final TextImpl that = (TextImpl) o;
+        return Objects.equals(text, that.text);
     }
     
     @Override
