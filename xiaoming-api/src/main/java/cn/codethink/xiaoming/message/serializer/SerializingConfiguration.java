@@ -1,7 +1,8 @@
 package cn.codethink.xiaoming.message.serializer;
 
 import cn.codethink.xiaoming.api.APIFactory;
-import cn.codethink.xiaoming.expression.formatter.FormattingConfiguration;
+import cn.codethink.xiaoming.expression.format.FormatConfiguration;
+import cn.codethink.xiaoming.expression.format.PairedFormatUnit;
 
 /**
  * <h1>序列化配置</h1>
@@ -26,12 +27,12 @@ public interface SerializingConfiguration {
         Builder offline(boolean offline);
     
         /**
-         * 设置是否存储图像字节信息
+         * 设置是否存储资源字节信息
          *
-         * @param storageResourceBytes 存储图像字节信息
+         * @param storageResourcesBytes 存储资源字节信息
          * @return 序列化配置构建器
          */
-        Builder storageResourceBytes(boolean storageResourceBytes);
+        Builder storageResourcesBytes(boolean storageResourcesBytes);
     
         /**
          * 设置是否明确文本
@@ -47,23 +48,15 @@ public interface SerializingConfiguration {
          * @param formattingConfiguration 格式化配置
          * @return 序列化配置构建器
          */
-        Builder formattingConfiguration(FormattingConfiguration formattingConfiguration);
+        Builder formattingConfiguration(FormatConfiguration formattingConfiguration);
     
         /**
-         * 设置表达式开头的空格数
+         * 设置表达式括号
          *
-         * @param countOfSpacesBeforeExpression 表达式开头的空格数
+         * @param expressionBounds 表达式括号
          * @return 序列化配置构建器
          */
-        Builder countOfSpacesBeforeExpression(int countOfSpacesBeforeExpression);
-    
-        /**
-         * 设置表达式结尾的空格数
-         *
-         * @param countOfSpacesAfterExpression 表达式结尾的空格数
-         * @return 序列化配置构建器
-         */
-        Builder countOfSpacesAfterExpression(int countOfSpacesAfterExpression);
+        Builder expressionBounds(PairedFormatUnit expressionBounds);
     
         /**
          * 构建序列化配置
@@ -92,18 +85,11 @@ public interface SerializingConfiguration {
     }
     
     /**
-     * 获取表达式开头的空格数
+     * 获取表达式括号
      *
-     * @return 表达式开头的空格数
+     * @return 表达式括号
      */
-    int getCountOfSpacesBeforeExpression();
-    
-    /**
-     * 获取表达式结尾的空格数
-     *
-     * @return 表达式结尾的空格数
-     */
-    int getCountOfSpacesAfterExpression();
+    PairedFormatUnit getExpressionBounds();
     
     /**
      * 是否序列化为离线消息
@@ -113,11 +99,11 @@ public interface SerializingConfiguration {
     boolean isOffline();
     
     /**
-     * 是否存储图像字节信息
+     * 是否存储资源字节信息
      *
-     * @return 存储图像字节信息
+     * @return 存储资源字节信息
      */
-    Boolean isStorageImageBytes();
+    boolean isStorageResourcesBytes();
     
     /**
      * 是否明确文本
@@ -131,5 +117,5 @@ public interface SerializingConfiguration {
      *
      * @return 格式化配置
      */
-    FormattingConfiguration getFormattingConfiguration();
+    FormatConfiguration getFormatConfiguration();
 }

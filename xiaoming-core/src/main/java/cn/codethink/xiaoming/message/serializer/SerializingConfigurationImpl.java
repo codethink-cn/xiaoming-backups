@@ -1,6 +1,9 @@
 package cn.codethink.xiaoming.message.serializer;
 
-import cn.codethink.xiaoming.expression.formatter.FormattingConfiguration;
+import cn.codethink.xiaoming.expression.format.FormatConfiguration;
+import cn.codethink.xiaoming.expression.format.PairedFormatUnit;
+import cn.codethink.xiaoming.expression.format.SpacesFormatUnit;
+import cn.codethink.xiaoming.expression.format.TextFormatUnit;
 import com.google.common.base.Preconditions;
 
 public class SerializingConfigurationImpl
@@ -10,11 +13,10 @@ public class SerializingConfigurationImpl
         implements Builder {
     
         private boolean offline = false;
-        private Boolean storageResourceBytes = false;
+        private boolean storageResourcesBytes = false;
         private boolean explicitText = false;
-        private FormattingConfiguration formattingConfiguration = FormattingConfiguration.getInstance();
-        private int countOfSpacesBeforeExpression = 0;
-        private int countOfSpacesAfterExpression = 0;
+        private FormatConfiguration formattingConfiguration = FormatConfiguration.getInstance();
+        private PairedFormatUnit expressionBounds = PairedFormatUnit.of(TextFormatUnit.of("#{"), SpacesFormatUnit.empty(), TextFormatUnit.of("}"));
     
         @Override
         public Builder offline(boolean offline) {
@@ -23,8 +25,8 @@ public class SerializingConfigurationImpl
         }
     
         @Override
-        public Builder storageResourceBytes(boolean storageResourceBytes) {
-            this.storageResourceBytes = storageResourceBytes;
+        public Builder storageResourcesBytes(boolean storageResourcesBytes) {
+            this.storageResourcesBytes = storageResourcesBytes;
             return this;
         }
     
@@ -35,28 +37,22 @@ public class SerializingConfigurationImpl
         }
     
         @Override
-        public Builder formattingConfiguration(FormattingConfiguration formattingConfiguration) {
+        public Builder formattingConfiguration(FormatConfiguration formattingConfiguration) {
             this.formattingConfiguration = formattingConfiguration;
             return this;
         }
     
         @Override
-        public Builder countOfSpacesBeforeExpression(int countOfSpacesBeforeExpression) {
-            this.countOfSpacesBeforeExpression = countOfSpacesBeforeExpression;
-            return this;
-        }
-    
-        @Override
-        public Builder countOfSpacesAfterExpression(int countOfSpacesAfterExpression) {
-            this.countOfSpacesAfterExpression = countOfSpacesAfterExpression;
+        public Builder expressionBounds(PairedFormatUnit expressionBounds) {
+            this.expressionBounds = expressionBounds;
             return this;
         }
     
         @Override
         public SerializingConfiguration build() {
-            return new SerializingConfigurationImpl(offline, storageResourceBytes, explicitText,
+            return new SerializingConfigurationImpl(offline, storageResourcesBytes, explicitText,
                 formattingConfiguration,
-                countOfSpacesBeforeExpression, countOfSpacesAfterExpression);
+                expressionBounds);
         }
     }
     
@@ -67,39 +63,30 @@ public class SerializingConfigurationImpl
     }
     
     private final boolean offline;
-    private final Boolean storageResourceBytes;
+    private final Boolean storageResourcesBytes;
     private final boolean explicitText;
-    private final FormattingConfiguration formattingConfiguration;
+    private final FormatConfiguration formattingConfiguration;
     
-    private final int countOfSpacesBeforeExpression;
-    private final int countOfSpacesAfterExpression;
+    private final PairedFormatUnit expressionBounds;
     
-    public SerializingConfigurationImpl(boolean offline, Boolean storageResourceBytes, boolean explicitText,
-                                        FormattingConfiguration formattingConfiguration,
-                                        int countOfSpacesBeforeExpression, int countOfSpacesAfterExpression) {
+    public SerializingConfigurationImpl(boolean offline,
+                                        boolean storageResourcesBytes,
+                                        boolean explicitText,
+                                        FormatConfiguration formattingConfiguration,
+                                        PairedFormatUnit expressionBounds) {
+        
         Preconditions.checkNotNull(formattingConfiguration, "Formatting configuration is null!");
-    
+        Preconditions.checkNotNull(expressionBounds, "Expression bounds is null!");
+        
         this.offline = offline;
-        this.storageResourceBytes = storageResourceBytes;
+        this.storageResourcesBytes = storageResourcesBytes;
         this.explicitText = explicitText;
         this.formattingConfiguration = formattingConfiguration;
-        
-        this.countOfSpacesBeforeExpression = countOfSpacesBeforeExpression;
-        this.countOfSpacesAfterExpression = countOfSpacesAfterExpression;
+        this.expressionBounds = expressionBounds;
     }
     
-    public Boolean getStorageResourceBytes() {
-        return storageResourceBytes;
-    }
-    
-    @Override
-    public int getCountOfSpacesBeforeExpression() {
-        return countOfSpacesBeforeExpression;
-    }
-    
-    @Override
-    public int getCountOfSpacesAfterExpression() {
-        return countOfSpacesAfterExpression;
+    public Boolean getStorageResourcesBytes() {
+        return storageResourcesBytes;
     }
     
     @Override
@@ -108,8 +95,13 @@ public class SerializingConfigurationImpl
     }
     
     @Override
-    public Boolean isStorageImageBytes() {
-        return storageResourceBytes;
+    public boolean isStorageResourcesBytes() {
+        return storageResourcesBytes;
+    }
+    
+    @Override
+    public PairedFormatUnit getExpressionBounds() {
+        return expressionBounds;
     }
     
     @Override
@@ -118,7 +110,7 @@ public class SerializingConfigurationImpl
     }
     
     @Override
-    public FormattingConfiguration getFormattingConfiguration() {
+    public FormatConfiguration getFormatConfiguration() {
         return formattingConfiguration;
     }
 }
