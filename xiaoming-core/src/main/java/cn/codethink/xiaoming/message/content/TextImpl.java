@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import java.util.Objects;
 
 public class TextImpl
+    extends AbstractMessageContent
     implements Text {
     
     private final String text;
@@ -39,7 +40,7 @@ public class TextImpl
     }
     
     @Override
-    public String toString() {
+    public String summarize() {
         return text;
     }
 }

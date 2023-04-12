@@ -13,5 +13,5 @@ import cn.codethink.xiaoming.common.BotObject;
  * @author Chuanwise
  */
 public interface Individual
-    extends Relation, BotObject {
+    extends Relation {
 }

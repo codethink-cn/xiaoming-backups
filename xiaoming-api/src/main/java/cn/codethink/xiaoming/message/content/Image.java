@@ -2,13 +2,15 @@ package cn.codethink.xiaoming.message.content;
 
 import cn.codethink.xiaoming.api.APIFactory;
 import cn.codethink.xiaoming.common.Resource;
+import cn.codethink.xiaoming.message.Message;
 
 /**
  * <h1>图像</h1>
  *
  * @author Chuanwise
  */
-public interface Image {
+public interface Image
+    extends Message {
     
     /**
      * 构造图像

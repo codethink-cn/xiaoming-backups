@@ -1,10 +1,11 @@
 package cn.codethink.xiaoming.api;
 
+import cn.codethink.xiaoming.adapter.Adapter;
 import cn.codethink.xiaoming.common.*;
 import cn.codethink.xiaoming.message.Message;
 import cn.codethink.xiaoming.message.MessageCodeImpl;
 import cn.codethink.xiaoming.message.chain.MessageChain;
-import cn.codethink.xiaoming.message.chain.MessageChainImpl;
+import cn.codethink.xiaoming.message.chain.MultipleContentsMessageImplChain;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfigurationImpl;
 import cn.codethink.xiaoming.message.content.*;
@@ -85,13 +86,13 @@ public class APIImpl
     }
     
     @Override
-    public IM getIM(String name) {
-        return IMImpl.getInstance(name);
+    public Adapter getIM(String name) {
+        return AdapterImpl.getInstance(name);
     }
     
     @Override
-    public Set<IM> getIMs() {
-        return IMImpl.getInstances();
+    public Set<Adapter> getIMs() {
+        return AdapterImpl.getInstances();
     }
     
     @Override
@@ -154,30 +155,30 @@ public class APIImpl
     public MessageChain getMessageChain(MessageContent... messageContents) {
         Preconditions.checkNotNull(messageContents, "Message contents are null!");
         if (messageContents.length == 0) {
-            throw new IllegalArgumentException("No message element present!");
+            throw new IllegalArgumentException("No message content present!");
         }
         
         for (int i = 0; i < messageContents.length; i++) {
             if (messageContents[i] == null) {
-                throw new NullPointerException("Null message element at position " + (i + 1));
+                throw new NullPointerException("Null message content at position " + (i + 1));
             }
         }
         if (messageContents.length == 1) {
-            return new MessageChainImpl(Collections.singletonList(messageContents[0]));
+            return new MultipleContentsMessageImplChain(Collections.singletonList(messageContents[0]));
         } else {
-            return new MessageChainImpl(Arrays.asList(messageContents));
+            return new MultipleContentsMessageImplChain(Arrays.asList(messageContents));
         }
     }
     
     @Override
     public MessageChain getMessageChain(MessageContent messageContent) {
         Preconditions.checkNotNull(messageContent, "Message content is null!");
-        return new MessageChainImpl(Collections.singletonList(messageContent));
+        return new MultipleContentsMessageImplChain(Collections.singletonList(messageContent));
     }
     
     @Override
     public MessageChain.Builder getMessageChainBuilder() {
-        return new MessageChainImpl.BuilderImpl();
+        return new MultipleContentsMessageImplChain.BuilderImpl();
     }
     
     @Override

@@ -11,7 +11,10 @@ import java.util.Iterator;
 import java.util.Objects;
 
 public class ImageImpl
+    extends AbstractMessageContent
     implements Image {
+    
+    private static final String DEFAULT_SUMMARY = "[图片]";
     
     private final Resource resource;
     private final int width;
@@ -23,7 +26,6 @@ public class ImageImpl
     
     public ImageImpl(Resource resource, int width, int height, int size, ImageType imageType) {
         Preconditions.checkNotNull(resource, "Resource is null!");
-        Preconditions.checkNotNull(imageType, "Image type is null!");
         Preconditions.checkArgument(width < 0, "Width must be greater than or equals to 0!");
         Preconditions.checkArgument(size < 0, "Size must be greater than or equals to 0!");
         Preconditions.checkArgument(height < 0, "Height must be greater than or equals to 0!");
@@ -107,20 +109,13 @@ public class ImageImpl
     @Override
     public int hashCode() {
         if (hashCodeCache == null) {
-            hashCodeCache = Objects.hash(resource, width, height, size, imageType);
+            hashCodeCache = super.hashCode() * 31 + Objects.hash(resource, width, height, size, imageType);
         }
         return hashCodeCache;
     }
     
     @Override
-    public String toString() {
-        return "ImageImpl{" +
-            "resource=" + resource +
-            ", width=" + width +
-            ", height=" + height +
-            ", size=" + size +
-            ", imageType=" + imageType +
-            ", hashCodeCache=" + hashCodeCache +
-            '}';
+    public String summarize() {
+        return DEFAULT_SUMMARY;
     }
 }
