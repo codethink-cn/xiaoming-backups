@@ -48,9 +48,19 @@ public class MessageCodeImpl {
         Preconditions.checkNotNull(message, "Message is null!");
         Preconditions.checkNotNull(configuration, "Serializing configuration is null!");
     
+        final FormattingTextItem itemBeforeExpression =
+            new FormattingTextItem(0, "#{", configuration.getCountOfSpacesBeforeExpression());
+        final FormattingTextItem itemAfterExpression =
+            new FormattingTextItem(configuration.getCountOfSpacesAfterExpression(), "}", 0);
+        
         if (message instanceof MessageContent) {
-            return FormattingItem.toString(Collections.singletonList(serializeMessageContent((MessageContent) message, configuration)),
-                configuration.getFormattingConfiguration().isMinimizeSpaces());
+            final List<FormattingItem> items = new ArrayList<>();
+            
+            items.add(itemBeforeExpression);
+            items.add(serializeMessageContent((MessageContent) message, configuration));
+            items.add(itemAfterExpression);
+            
+            return FormattingItem.toString(items, configuration.getFormattingConfiguration().isMinimizeSpaces());
         }
         if (message instanceof MessageChain) {
             final MessageChain messageChain = (MessageChain) message;
@@ -58,11 +68,7 @@ public class MessageCodeImpl {
             if (size == 0) {
                 throw new IllegalArgumentException("Unexpected empty message chain");
             }
-    
-            final FormattingTextItem itemBeforeExpression =
-                new FormattingTextItem(0, "#{", configuration.getCountOfSpacesBeforeExpression());
-            final FormattingTextItem itemAfterExpression =
-                new FormattingTextItem(configuration.getCountOfSpacesAfterExpression(), "}", 0);
+            
             final FormattingItem comma = new FormattingTextItem(configuration.getFormattingConfiguration().getCountOfSpacesBeforeComma(),
                 ",", configuration.getFormattingConfiguration().getCountOfSpacesAfterComma());
     
@@ -185,6 +191,7 @@ public class MessageCodeImpl {
                 } else {
                     // 处理表达式中的字符串中的 \"
                     if (escaped) {
+                        stringBuilder.append(ch);
                         escaped = false;
                         continue;
                     }
