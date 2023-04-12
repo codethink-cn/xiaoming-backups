@@ -1,6 +1,5 @@
 package cn.codethink.xiaoming.message.serializer;
 
-import cn.codethink.xiaoming.expression.analyzer.AnalyzingConfiguration;
 import cn.codethink.xiaoming.expression.formatter.FormattingConfiguration;
 import com.google.common.base.Preconditions;
 
@@ -11,10 +10,9 @@ public class SerializingConfigurationImpl
         implements Builder {
     
         private boolean offline = false;
-        private Boolean storageImageBytes = false;
+        private Boolean storageResourceBytes = false;
         private boolean explicitText = false;
         private FormattingConfiguration formattingConfiguration = FormattingConfiguration.getInstance();
-        private AnalyzingConfiguration analyzingConfiguration = AnalyzingConfiguration.getInstance();
         private int countOfSpacesBeforeExpression = 0;
         private int countOfSpacesAfterExpression = 0;
     
@@ -25,8 +23,8 @@ public class SerializingConfigurationImpl
         }
     
         @Override
-        public Builder storageImageBytes(boolean storageImageBytes) {
-            this.storageImageBytes = storageImageBytes;
+        public Builder storageResourceBytes(boolean storageResourceBytes) {
+            this.storageResourceBytes = storageResourceBytes;
             return this;
         }
     
@@ -39,12 +37,6 @@ public class SerializingConfigurationImpl
         @Override
         public Builder formattingConfiguration(FormattingConfiguration formattingConfiguration) {
             this.formattingConfiguration = formattingConfiguration;
-            return this;
-        }
-    
-        @Override
-        public Builder analyzingConfiguration(AnalyzingConfiguration analyzingConfiguration) {
-            this.analyzingConfiguration = analyzingConfiguration;
             return this;
         }
     
@@ -62,8 +54,8 @@ public class SerializingConfigurationImpl
     
         @Override
         public SerializingConfiguration build() {
-            return new SerializingConfigurationImpl(offline, storageImageBytes, explicitText,
-                formattingConfiguration, analyzingConfiguration,
+            return new SerializingConfigurationImpl(offline, storageResourceBytes, explicitText,
+                formattingConfiguration,
                 countOfSpacesBeforeExpression, countOfSpacesAfterExpression);
         }
     }
@@ -75,32 +67,29 @@ public class SerializingConfigurationImpl
     }
     
     private final boolean offline;
-    private final Boolean storageImageBytes;
+    private final Boolean storageResourceBytes;
     private final boolean explicitText;
     private final FormattingConfiguration formattingConfiguration;
-    private final AnalyzingConfiguration analyzingConfiguration;
     
     private final int countOfSpacesBeforeExpression;
     private final int countOfSpacesAfterExpression;
     
-    public SerializingConfigurationImpl(boolean offline, Boolean storageImageBytes, boolean explicitText,
-                                        FormattingConfiguration formattingConfiguration, AnalyzingConfiguration analyzingConfiguration,
+    public SerializingConfigurationImpl(boolean offline, Boolean storageResourceBytes, boolean explicitText,
+                                        FormattingConfiguration formattingConfiguration,
                                         int countOfSpacesBeforeExpression, int countOfSpacesAfterExpression) {
         Preconditions.checkNotNull(formattingConfiguration, "Formatting configuration is null!");
-        Preconditions.checkNotNull(analyzingConfiguration, "Analyzing configuration is null!");
     
         this.offline = offline;
-        this.storageImageBytes = storageImageBytes;
+        this.storageResourceBytes = storageResourceBytes;
         this.explicitText = explicitText;
         this.formattingConfiguration = formattingConfiguration;
-        this.analyzingConfiguration = analyzingConfiguration;
         
         this.countOfSpacesBeforeExpression = countOfSpacesBeforeExpression;
         this.countOfSpacesAfterExpression = countOfSpacesAfterExpression;
     }
     
-    public Boolean getStorageImageBytes() {
-        return storageImageBytes;
+    public Boolean getStorageResourceBytes() {
+        return storageResourceBytes;
     }
     
     @Override
@@ -120,7 +109,7 @@ public class SerializingConfigurationImpl
     
     @Override
     public Boolean isStorageImageBytes() {
-        return storageImageBytes;
+        return storageResourceBytes;
     }
     
     @Override
@@ -131,10 +120,5 @@ public class SerializingConfigurationImpl
     @Override
     public FormattingConfiguration getFormattingConfiguration() {
         return formattingConfiguration;
-    }
-    
-    @Override
-    public AnalyzingConfiguration getAnalyzingConfiguration() {
-        return analyzingConfiguration;
     }
 }

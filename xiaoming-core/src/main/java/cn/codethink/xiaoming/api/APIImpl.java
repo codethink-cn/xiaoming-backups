@@ -2,6 +2,8 @@ package cn.codethink.xiaoming.api;
 
 import cn.codethink.xiaoming.adapter.Adapter;
 import cn.codethink.xiaoming.common.*;
+import cn.codethink.xiaoming.expression.lang.Interpreter;
+import cn.codethink.xiaoming.expression.lang.InterpreterImpl;
 import cn.codethink.xiaoming.message.Message;
 import cn.codethink.xiaoming.message.MessageCodeImpl;
 import cn.codethink.xiaoming.message.chain.MessageChain;
@@ -11,6 +13,7 @@ import cn.codethink.xiaoming.message.deserializer.DeserializingConfigurationImpl
 import cn.codethink.xiaoming.message.content.*;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import cn.codethink.xiaoming.message.serializer.SerializingConfigurationImpl;
+import cn.codethink.xiaoming.util.InterpretersImpl;
 import com.google.common.base.Preconditions;
 
 import java.io.File;
@@ -238,5 +241,10 @@ public class APIImpl
     @Override
     public Flash getFlash(Image image) {
         return new FlashImpl(image);
+    }
+    
+    @Override
+    public Interpreter getInterpreter() {
+        return InterpretersImpl.getInstance();
     }
 }
