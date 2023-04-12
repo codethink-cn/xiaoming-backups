@@ -234,4 +234,9 @@ public class APIImpl
     public Set<ImageType> getImageTypes() {
         return ImageTypeImpl.getInstances();
     }
+    
+    @Override
+    public Flash getFlash(Image image) {
+        return new FlashImpl(image);
+    }
 }
