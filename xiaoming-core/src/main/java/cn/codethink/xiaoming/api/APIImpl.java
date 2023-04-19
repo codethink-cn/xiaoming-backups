@@ -24,9 +24,9 @@ import cn.codethink.xiaoming.message.MessageCodeImpl;
 import cn.codethink.xiaoming.message.chain.MessageChain;
 import cn.codethink.xiaoming.message.chain.MultipleMessageContentsMessageChainImpl;
 import cn.codethink.xiaoming.message.chain.SingleMessageContentMessageChainImpl;
+import cn.codethink.xiaoming.message.content.*;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfiguration;
 import cn.codethink.xiaoming.message.deserializer.DeserializingConfigurationImpl;
-import cn.codethink.xiaoming.message.content.*;
 import cn.codethink.xiaoming.message.serializer.SerializingConfiguration;
 import cn.codethink.xiaoming.message.serializer.SerializingConfigurationImpl;
 import cn.codethink.xiaoming.util.InterpretersImpl;
@@ -36,8 +36,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -115,8 +114,16 @@ public class APIImpl
     }
     
     @Override
-    public Text getText(String text) {
-        return new TextImpl(text);
+    public Text getText(Object object) {
+        final String string;
+        if (object == null) {
+            string = "null";
+        } else if (object instanceof String) {
+            string = (String) object;
+        } else {
+            string = Objects.toString(object);
+        }
+        return TextImpl.of(string);
     }
     
     @Override

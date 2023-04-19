@@ -29,11 +29,11 @@ public interface Text
     /**
      * 构造文本消息
      *
-     * @param text 文本
+     * @param object 信息
      * @return 文本消息
      */
-    static Text of(String text) {
-        return APIFactory.getInstance().getText(text);
+    static Text of(Object object) {
+        return APIFactory.getInstance().getText(object);
     }
     
     /**

@@ -24,11 +24,21 @@ public class TextImpl
     extends AbstractMessageContent
     implements Text {
     
+    private static final TextImpl NULL = new TextImpl("null");
+    
     private final String text;
     
     private Integer hashCodeCache;
     
-    public TextImpl(String text) {
+    public static TextImpl of(String text) {
+        if (text == null || text.equals("null")) {
+            return NULL;
+        } else {
+            return new TextImpl(text);
+        }
+    }
+    
+    private TextImpl(String text) {
         Preconditions.checkNotNull(text, "Text is null!");
         Preconditions.checkArgument(!text.isEmpty(), "Text is empty!");
         
