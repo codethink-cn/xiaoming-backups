@@ -14,32 +14,19 @@
  * limitations under the License.
  */
 
-package cn.codethink.xiaoming.message.content;
-
-import cn.codethink.xiaoming.api.APIFactory;
+package cn.codethink.xiaoming.event;
 
 /**
- * <h1>文本消息</h1>
+ * <h1>可拦截的</h1>
  *
  * @author Chuanwise
  */
-public interface Text
-    extends MessageContent {
+public interface Interceptable {
     
     /**
-     * 构造文本消息
+     * 判断事件是否被拦截
      *
-     * @param object 信息
-     * @return 文本消息
+     * @return 事件是否被拦截
      */
-    static Text of(Object object) {
-        return APIFactory.getInstance().getText(object);
-    }
-    
-    /**
-     * 获取文本数据
-     *
-     * @return 文本数据
-     */
-    String getText();
+    boolean isIntercepted();
 }

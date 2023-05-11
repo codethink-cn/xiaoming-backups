@@ -14,32 +14,14 @@
  * limitations under the License.
  */
 
-package cn.codethink.xiaoming.message.content;
-
-import cn.codethink.xiaoming.api.APIFactory;
+package cn.codethink.xiaoming.event;
 
 /**
- * <h1>文本消息</h1>
+ * <h1>事件</h1>
+ *
+ * <p>所有能够被发布的对象，都应该实现该接口，以使其成为事件。</p>
  *
  * @author Chuanwise
  */
-public interface Text
-    extends MessageContent {
-    
-    /**
-     * 构造文本消息
-     *
-     * @param object 信息
-     * @return 文本消息
-     */
-    static Text of(Object object) {
-        return APIFactory.getInstance().getText(object);
-    }
-    
-    /**
-     * 获取文本数据
-     *
-     * @return 文本数据
-     */
-    String getText();
+public interface Event {
 }

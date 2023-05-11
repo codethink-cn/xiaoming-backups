@@ -14,32 +14,26 @@
  * limitations under the License.
  */
 
-package cn.codethink.xiaoming.message.content;
-
-import cn.codethink.xiaoming.api.APIFactory;
+package cn.codethink.xiaoming.event;
 
 /**
- * <h1>文本消息</h1>
+ * <h1>可取消</h1>
  *
  * @author Chuanwise
  */
-public interface Text
-    extends MessageContent {
+public interface Cancellable {
     
     /**
-     * 构造文本消息
+     * 判断对象是否被取消
      *
-     * @param object 信息
-     * @return 文本消息
+     * @return 对象是否被取消
      */
-    static Text of(Object object) {
-        return APIFactory.getInstance().getText(object);
-    }
+    boolean isCancelled();
     
     /**
-     * 获取文本数据
+     * 设置对象是否被取消
      *
-     * @return 文本数据
+     * @param cancelled 对象是否被取消
      */
-    String getText();
+    void setCancelled(boolean cancelled);
 }

@@ -57,7 +57,7 @@ public interface API {
     Adapter getIM(String name);
     Set<Adapter> getIMs();
     
-    Text getText(String text);
+    Text getText(Object object);
     At getAt(Id id);
     AtAll getAtAll();
     
