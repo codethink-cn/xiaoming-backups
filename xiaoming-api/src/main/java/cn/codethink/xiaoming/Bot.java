@@ -18,6 +18,7 @@ package cn.codethink.xiaoming;
 
 import cn.codethink.xiaoming.adapter.Adapter;
 import cn.codethink.xiaoming.common.IdObject;
+import cn.codethink.xiaoming.configuration.BotConfiguration;
 import cn.codethink.xiaoming.relation.Individual;
 import cn.codethink.xiaoming.relation.RelationManager;
 
@@ -35,6 +36,13 @@ public interface Bot
      * @return 关系管理器
      */
     RelationManager getRelationManager();
+    
+    /**
+     * 获取配置
+     *
+     * @return 配置
+     */
+    BotConfiguration getConfiguration();
     
     /**
      * 获取适配器
