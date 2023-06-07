@@ -21,7 +21,8 @@ package cn.codethink.xiaoming.event;
  *
  * @author Chuanwise
  */
-public interface CancellableEvent {
+public interface CancellableEvent
+    extends Event {
     
     /**
      * 判断对象是否被取消

@@ -21,7 +21,8 @@ package cn.codethink.xiaoming.event;
  *
  * @author Chuanwise
  */
-public interface Interceptable {
+public interface InterceptableEvent
+    extends Event {
     
     /**
      * 判断事件是否被拦截
@@ -29,4 +30,11 @@ public interface Interceptable {
      * @return 事件是否被拦截
      */
     boolean isIntercepted();
+    
+    /**
+     * 设置事件是否被拦截
+     *
+     * @param intercepted 事件是否被拦截
+     */
+    void setIntercepted(boolean intercepted);
 }
