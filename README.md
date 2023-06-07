@@ -7,6 +7,10 @@
 
 项目正在重构，敬请期待。
 
+## 社群
+
+* [QQ 群](https://jq.qq.com/?_wv=1027&k=sjBXo6xh)：加入我们的 QQ 群以获取技术指导和最新资讯。
+
 ## 许可
 
 ### 开源许可
@@ -28,10 +32,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
-## 社群
-
-* [QQ 群](https://jq.qq.com/?_wv=1027&k=sjBXo6xh)：加入我们的 QQ 群以获取技术指导和最新资讯。
 
 ## 鸣谢
 
