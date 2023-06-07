@@ -17,11 +17,11 @@
 package cn.codethink.xiaoming.event;
 
 /**
- * <h1>可取消</h1>
+ * <h1>可取消事件</h1>
  *
  * @author Chuanwise
  */
-public interface Cancellable {
+public interface CancellableEvent {
     
     /**
      * 判断对象是否被取消
